@@ -1,0 +1,25 @@
+---
+// SiteNav · 粘性导航
+export interface Link {
+  label: string;
+  href: string;
+  num: string;
+}
+
+export interface Props {
+  links: Link[];
+}
+
+const { links } = Astro.props;
+---
+
+<nav class="nav" aria-label="章节导航">
+  <div class="wrap">
+    <div class="nav-in">
+      <span class="nav-brand">ARSENAL<span class="dot">_</span></span>
+      {links.map(link => (
+        <a class="chip" href={link.href}><b>{link.num}</b>{link.label}</a>
+      ))}
+    </div>
+  </div>
+</nav>

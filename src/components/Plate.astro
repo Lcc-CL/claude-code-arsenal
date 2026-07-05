@@ -1,0 +1,21 @@
+---
+// Plate · 手册铭牌
+export interface Props {
+  title: string;
+  code: string;
+  version: string;
+}
+
+const { title, code, version } = Astro.props;
+---
+
+<header class="plate">
+  <div class="wrap">
+    <div class="plate-in">
+      <div class="plate-cell"><b>{title}</b></div>
+      <div class="plate-cell hide-m">编号 {code}</div>
+      <div class="plate-cell hide-m">适用 {version}</div>
+      <div class="plate-cell grow"><span class="plate-stamp">持续修订</span></div>
+    </div>
+  </div>
+</header>

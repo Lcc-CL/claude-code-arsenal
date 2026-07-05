@@ -1,0 +1,63 @@
+---
+// CopyButton · 复制按钮
+// 支持 data-copy（直接文本）和 data-copy-target（CSS 选择器）
+// variant: 'dark'（终端内）| 'light'（亮色背景）
+export interface Props {
+  text?: string;
+  target?: string;
+  variant?: 'dark' | 'light';
+}
+
+const { text, target, variant = 'dark' } = Astro.props;
+const classes = ['copy', variant === 'light' ? 'light' : ''].filter(Boolean).join(' ');
+---
+
+<button
+  class={classes}
+  data-copy={text ?? undefined}
+  data-copy-target={target ?? undefined}
+>复制</button>
+
+<script>
+  function flash(btn: HTMLButtonElement) {
+    const old = btn.textContent!;
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('done');
+    setTimeout(() => {
+      btn.textContent = old;
+      btn.classList.remove('done');
+    }, 1600);
+  }
+
+  function grab(btn: HTMLButtonElement): string {
+    const t = btn.getAttribute('data-copy-target');
+    if (t) {
+      const el = document.querySelector(t);
+      return el?.textContent ?? '';
+    }
+    return btn.getAttribute('data-copy') ?? '';
+  }
+
+  function fallback(text: string, btn: HTMLButtonElement) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); flash(btn); } catch (_) { /* 复制失败，静默 */ }
+    document.body.removeChild(ta);
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.copy') as HTMLButtonElement | null;
+    if (!btn) return;
+    const txt = grab(btn);
+    if (!txt) return;
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(txt).then(() => flash(btn), () => fallback(txt, btn));
+    } else {
+      fallback(txt, btn);
+    }
+  });
+</script>

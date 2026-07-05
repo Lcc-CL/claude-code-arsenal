@@ -1,0 +1,124 @@
+---
+// /styleguide · 设计系统组件状态陈列页
+import Base from '../layouts/Base.astro';
+import Plate from '../components/Plate.astro';
+import SiteNav from '../components/SiteNav.astro';
+import Term from '../components/Term.astro';
+import CopyButton from '../components/CopyButton.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+import Highlight from '../components/Highlight.astro';
+import Reveal from '../components/Reveal.astro';
+import Footer from '../components/Footer.astro';
+
+const navLinks = [
+  { label: '快速开始', href: '#start', num: '01' },
+  { label: '官方 Skills', href: '#official', num: '02' },
+  { label: '社区资源', href: '#community', num: '03' },
+  { label: '模板', href: '#templates', num: '04' },
+];
+---
+
+<Base title="Styleguide · Claude Code Arsenal 设计系统" description="全站组件状态陈列页">
+  <slot name="head">
+    <!-- Reveal 组件在此页重复使用，其脚本需要服务端渲染时能匹配到所有 .reveal 元素 -->
+  </slot>
+
+  <!-- ═══════════ Plate 铭牌 · 默认 ═══════════ -->
+  <Plate title="CC·FIELD MANUAL" code="CCA-2026-07" version="Claude Code v2.x" />
+
+  <!-- ═══════════ SiteNav 导航 · 默认 ═══════════ -->
+  <SiteNav links={navLinks} />
+
+  <!-- ═══════════ 内容区 ═══════════ -->
+  <main style="padding: 48px 0;">
+    <div class="wrap">
+
+      <!-- ═══════════ ChapterHead · 默认 ═══════════ -->
+      <section style="margin-bottom: 48px;">
+        <h2 class="mono" style="font-size:13px;letter-spacing:.1em;color:var(--faint);margin-bottom:28px;">COMPONENT: ChapterHead</h2>
+        <ChapterHead
+          tag="第 01 章 / QUICKSTART"
+          title="三条命令,完成全套装配"
+          lede="从零开始到「官方技能全就位 + 项目记忆初始化」,总共只需要几分钟。"
+        />
+      </section>
+
+      <!-- ═══════════ Highlight · 默认 ═══════════ -->
+      <section style="margin-bottom: 48px;">
+        <h2 class="mono" style="font-size:13px;letter-spacing:.1em;color:var(--faint);margin-bottom:28px;">COMPONENT: Highlight</h2>
+        <p style="font-size:16px;">
+          给 Claude Code 配上<Highlight>正确的技能</Highlight>与<Highlight>正确的记忆</Highlight>,它才像一位老同事。
+        </p>
+      </section>
+
+      <!-- ═══════════ Term · 默认 + 带复制 ═══════════ -->
+      <section style="margin-bottom: 48px;">
+        <h2 class="mono" style="font-size:13px;letter-spacing:.1em;color:var(--faint);margin-bottom:28px;">COMPONENT: Term</h2>
+
+        <h3 style="margin-top:24px;">Term · 默认（无复制按钮）</h3>
+        <Term title="memory-hierarchy — 记忆加载层级">
+          <span class="tree-row"><span class="t-b">~/.claude/</span></span>
+          <span class="tree-row">├── CLAUDE.md            <span class="t-c">← 全局</span><span class="t-badge">启动加载</span></span>
+          <span class="tree-row">└── <span class="t-b">skills/</span>              <span class="t-c">← 个人 Skills</span></span>
+        </Term>
+
+        <h3 style="margin-top:24px;">Term · 带 CopyButton（direct text）</h3>
+        <Term title="terminal" copyText="npm install -g @anthropic-ai/claude-code">
+          <span class="t-g">$</span> npm install -g @anthropic-ai/claude-code
+        </Term>
+
+        <h3 style="margin-top:24px;">Term · 带 CopyButton（copy-target 模式，复制下方代码块）</h3>
+        <Term title="~/.claude/CLAUDE.md" copyTarget="#sg-tpl">
+          <code id="sg-tpl"># 全局工作准则(适用于本机所有项目)
+
+          ## 沟通
+          - 用中文与我交流;代码、命令、报错信息保持英文原样
+          ## 行为边界
+          - 删除文件、git push --force 等破坏性操作:先征得确认再执行</code>
+        </Term>
+      </section>
+
+      <!-- ═══════════ CopyButton · 全部变体 ═══════════ -->
+      <section style="margin-bottom: 48px;">
+        <h2 class="mono" style="font-size:13px;letter-spacing:.1em;color:var(--faint);margin-bottom:28px;">COMPONENT: CopyButton</h2>
+
+        <h3>Dark 变体（终端内默认）</h3>
+        <div style="display:flex;gap:12px;align-items:center;background:var(--term-bg);padding:14px 18px;border-radius:10px;margin-bottom:12px;">
+          <CopyButton text="npm install -g @anthropic-ai/claude-code" />
+          <span style="font-family:var(--mono);font-size:11px;color:var(--term-dim);">← 点击测试复制反馈（1.6s「已复制 ✓」）</span>
+        </div>
+
+        <h3 style="margin-top:18px;">Light 变体（亮色背景）</h3>
+        <div style="display:flex;gap:12px;align-items:center;background:var(--panel);padding:14px 18px;border-radius:10px;border:1px solid var(--line);margin-bottom:12px;">
+          <CopyButton text="/plugin marketplace add anthropics/skills" variant="light" />
+          <span style="font-family:var(--mono);font-size:11px;color:var(--faint);">← 点击测试亮色复制反馈</span>
+        </div>
+      </section>
+
+      <!-- ═══════════ Reveal · 默认 ═══════════ -->
+      <section style="margin-bottom: 48px;">
+        <h2 class="mono" style="font-size:13px;letter-spacing:.1em;color:var(--faint);margin-bottom:28px;">COMPONENT: Reveal</h2>
+        <p style="color:var(--muted);margin-bottom:16px;">以下内容在进入视口时上移渐显（刷新页面观察效果）。启用 prefers-reduced-motion 时直接显示。</p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <Reveal>
+            <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;font-family:var(--mono);font-weight:700;">Reveal ①</div>
+          </Reveal>
+          <Reveal>
+            <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;font-family:var(--mono);font-weight:700;">Reveal ②</div>
+          </Reveal>
+          <Reveal>
+            <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;font-family:var(--mono);font-weight:700;">Reveal ③</div>
+          </Reveal>
+        </div>
+      </section>
+
+      <!-- ═══════════ Footer · 默认 ═══════════ -->
+      <section style="margin-bottom: 48px;">
+        <h2 class="mono" style="font-size:13px;letter-spacing:.1em;color:var(--faint);margin-bottom:28px;">COMPONENT: Footer</h2>
+        <Footer />
+      </section>
+
+    </div>
+  </main>
+</Base>

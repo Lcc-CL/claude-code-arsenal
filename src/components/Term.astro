@@ -1,0 +1,26 @@
+---
+// Term · 终端面板
+import CopyButton from './CopyButton.astro';
+
+export interface Props {
+  title: string;
+  copyText?: string;
+  copyTarget?: string;
+  'aria-label'?: string;
+}
+
+const { title, copyText, copyTarget } = Astro.props;
+const ariaLabel = Astro.props['aria-label'] ?? title;
+const showCopy = copyText || copyTarget;
+---
+
+<div class="term" aria-label={ariaLabel}>
+  <div class="term-bar">
+    <span class="tdot"></span>
+    <span class="tdot"></span>
+    <span class="tdot"></span>
+    <span class="term-title">{title}</span>
+    {showCopy && <CopyButton text={copyText} target={copyTarget} />}
+  </div>
+  <pre><code><slot /></code></pre>
+</div>
