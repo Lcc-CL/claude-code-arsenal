@@ -1,0 +1,15 @@
+name: brand-guidelines
+slug: brand-guidelines
+origin: official
+category: team
+summary: 加载品牌色板与排版规范并应用到任意产物(默认 Anthropic 品牌)。更大的价值:照它仿写一份你自己公司的品牌 Skill。
+usageExample: 按 brand-guidelines 的结构生成我司品牌 Skill
+install:
+  method: plugin
+  command: /plugin install example-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [品牌, 协作]
+featured: false
+order: 15
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

@@ -6,10 +6,13 @@ export interface Props {
   title: string;
   copyText?: string;
   copyTarget?: string;
+  codeId?: string;
+  /** 直接传入代码文本(避免 slot 缩进空白混入 <pre>,保证复制/下载逐字节干净) */
+  content?: string;
   'aria-label'?: string;
 }
 
-const { title, copyText, copyTarget } = Astro.props;
+const { title, copyText, copyTarget, codeId, content } = Astro.props;
 const ariaLabel = Astro.props['aria-label'] ?? title;
 const showCopy = copyText || copyTarget;
 ---
@@ -21,6 +24,7 @@ const showCopy = copyText || copyTarget;
     <span class="tdot"></span>
     <span class="term-title">{title}</span>
     {showCopy && <CopyButton text={copyText} target={copyTarget} />}
+    <slot name="actions" />
   </div>
-  <pre><code><slot /></code></pre>
+  <pre><code id={codeId ?? undefined}>{content !== undefined ? content : <slot />}</code></pre>
 </div>

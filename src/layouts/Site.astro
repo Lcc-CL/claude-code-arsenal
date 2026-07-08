@@ -1,0 +1,49 @@
+---
+// Site · 站点外壳:Base + 铭牌 + 粘性导航 + 页脚(SPEC 第 3 节导航)
+import Base from './Base.astro';
+import Plate from '../components/Plate.astro';
+import SiteNav from '../components/SiteNav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const navLinks = [
+  { num: '01', label: '技能库', href: '/skills' },
+  { num: '02', label: 'CLAUDE.md 模板', href: '/claude-md' },
+  { num: '03', label: '学习指南', href: '/guide' },
+  { num: '04', label: '资源库', href: '/resources' },
+  { num: '05', label: '关于', href: '/about' },
+];
+---
+
+<Base title={title} description={description}>
+  <Plate title="CC·FIELD MANUAL" code="CCA-2026-07" version="Claude Code v2.x" />
+  <SiteNav links={navLinks} />
+  <slot />
+  <Footer />
+</Base>
+
+<script>
+  // 入场动画(与 Reveal 组件同源逻辑;尊重 prefers-reduced-motion)
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll('.reveal');
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: .08 });
+    els.forEach(el => io.observe(el));
+  }
+</script>

@@ -1,0 +1,29 @@
+---
+// ResourceRow · 资源行(基准 .res,三栏;≤820px 折单栏)
+import type { CollectionEntry } from 'astro:content';
+import CopyButton from './CopyButton.astro';
+
+export interface Props {
+  resource: CollectionEntry<'resources'>['data'];
+}
+
+const { resource: r } = Astro.props;
+
+const badgeClass = r.badge === '中文' ? 'tagx cn' : r.badge === '安全' ? 'tagx sec' : 'tagx';
+---
+
+<div class="res">
+  <div class="res-name">
+    {r.url
+      ? <a href={r.url} target="_blank" rel="noopener">{r.name}<span class="ext">↗</span></a>
+      : r.name}
+  </div>
+  <div class="res-desc">{r.desc}</div>
+  <div class="res-meta">
+    <span class={badgeClass}>{r.badge}</span>
+    {r.stars && <span class="star">★ {r.stars}</span>}
+    {r.installCommand && (
+      <CopyButton text={r.installCommand} variant="light" label={r.installLabel ?? '复制安装'} />
+    )}
+  </div>
+</div>

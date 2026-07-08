@@ -6,9 +6,10 @@ export interface Props {
   text?: string;
   target?: string;
   variant?: 'dark' | 'light';
+  label?: string;
 }
 
-const { text, target, variant = 'dark' } = Astro.props;
+const { text, target, variant = 'dark', label = '复制' } = Astro.props;
 const classes = ['copy', variant === 'light' ? 'light' : ''].filter(Boolean).join(' ');
 ---
 
@@ -16,7 +17,7 @@ const classes = ['copy', variant === 'light' ? 'light' : ''].filter(Boolean).joi
   class={classes}
   data-copy={text ?? undefined}
   data-copy-target={target ?? undefined}
->复制</button>
+>{label}</button>
 
 <script>
   function flash(btn: HTMLButtonElement) {

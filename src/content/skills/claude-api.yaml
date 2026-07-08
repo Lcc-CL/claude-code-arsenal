@@ -1,0 +1,15 @@
+name: claude-api
+slug: claude-api
+origin: official
+category: dev
+summary: 内置最新 Claude API 参考、SDK 文档与 8 种语言的最佳实践,写集成代码时不再依赖过期的训练记忆。
+usageExample: 按 claude-api skill 用 TypeScript 写一个流式调用示例
+install:
+  method: plugin
+  command: /plugin install example-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [API, SDK]
+featured: false
+order: 8
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

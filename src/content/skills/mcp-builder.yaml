@@ -1,0 +1,15 @@
+name: mcp-builder
+slug: mcp-builder
+origin: official
+category: dev
+summary: 构建高质量 MCP Server 的完整四阶段工作流:调研规划 → 实现(结构 / 错误处理 / 分页)→ 审查 → MCP Inspector 测试。
+usageExample: 用 mcp-builder 给我们的内部 API 写一个 MCP Server
+install:
+  method: plugin
+  command: /plugin install example-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [MCP, 工程]
+featured: false
+order: 6
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

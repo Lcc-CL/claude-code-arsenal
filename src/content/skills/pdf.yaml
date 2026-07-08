@@ -1,0 +1,15 @@
+name: pdf
+slug: pdf
+origin: official
+category: doc
+summary: PDF 全能工具箱:提取文本与表格、合并拆分、旋转加水印、填写表单、加解密。处理扫描件与表单类文件的首选。
+usageExample: 用 pdf skill 提取 contract.pdf 里所有表单字段
+install:
+  method: plugin
+  command: /plugin install document-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [文档, PDF]
+featured: true
+order: 2
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

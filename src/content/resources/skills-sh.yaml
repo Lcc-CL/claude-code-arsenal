@@ -1,0 +1,7 @@
+name: skills.sh
+url: https://skills.sh
+desc: Vercel 打造的开放技能生态,收录 5 万+ 技能、兼容 20+ 编码代理;npx 一行安装,还能装 find-skills 让 Claude 自己找技能。
+badge: 市场
+installCommand: npx skills add vercel/frontend-design
+installLabel: 复制示例
+order: 3

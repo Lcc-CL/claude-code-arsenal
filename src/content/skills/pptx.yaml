@@ -1,0 +1,15 @@
+name: pptx
+slug: pptx
+origin: official
+category: doc
+summary: 生成与编辑 PowerPoint 演示文稿:版式、模板、图表与批量自动化产出幻灯片,拿来做周报/提案效率极高。
+usageExample: 按这份大纲用 pptx skill 生成 10 页路演稿
+install:
+  method: plugin
+  command: /plugin install document-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [文档, PPT]
+featured: false
+order: 3
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

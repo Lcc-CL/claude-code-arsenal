@@ -1,0 +1,15 @@
+name: algorithmic-art
+slug: algorithmic-art
+origin: official
+category: art
+summary: p5.js 生成艺术:种子随机、流场、粒子系统,可复现的算法视觉实验。
+usageExample: 用 algorithmic-art 生成一组流场风格的品牌纹理
+install:
+  method: plugin
+  command: /plugin install example-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [生成艺术, p5.js]
+featured: false
+order: 12
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

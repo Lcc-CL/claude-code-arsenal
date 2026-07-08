@@ -1,0 +1,15 @@
+name: docx
+slug: docx
+origin: official
+category: doc
+summary: 创建、编辑与分析 Word 文档:支持修订(Track Changes)、批注、格式保留与文本抽取。Claude.ai 文档能力背后的同款 Skill。
+usageExample: 用 docx skill 把这份纪要整理成带目录的 Word 报告
+install:
+  method: plugin
+  command: /plugin install document-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [文档, Word]
+featured: false
+order: 1
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

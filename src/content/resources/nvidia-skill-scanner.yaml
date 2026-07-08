@@ -1,0 +1,4 @@
+name: NVIDIA Agent Skill 安全扫描器
+desc: 开源安全审计工具:检测第三方 Skill 中的 prompt injection、数据外泄、MCP 工具投毒与恶意载荷,支持 CLI / Docker / MCP。
+badge: 安全
+order: 12

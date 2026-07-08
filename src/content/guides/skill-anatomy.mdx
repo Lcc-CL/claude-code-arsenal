@@ -1,0 +1,32 @@
+---
+title: SKILL.md 逐字段剖析
+description: "一个 Skill = 一个文件夹,而不只是一个 Markdown。三级渐进披露让它几乎零成本常驻:启动只读约 100 token 的元数据,任务匹配才加载正文,脚本与资料按需再读。"
+order: 2
+updatedAt: 2026-07-06
+---
+import Term from '../../components/Term.astro';
+import SecNote from '../../components/SecNote.astro';
+
+一个 Skill = 一个文件夹,而不只是一个 Markdown。三级渐进披露让它几乎零成本常驻:启动只读约 100 token 的元数据,任务匹配才加载正文,脚本与资料按需再读。
+
+## SKILL.md 逐字段注解
+
+export const skillTpl = "---\nname: pr-review                # 必填,也是 /pr-review 命令名\ndescription: >                 # 必填,决定「何时触发」的唯一线索:\n  按团队标准审查 PR:安全、性能、  #   写清做什么 + 何时用 +\n  测试覆盖。当用户提到\"审查/review/ #   用户可能怎么说(触发词)\n  看看这个 PR\"时使用。\nallowed-tools: Read, Grep, Glob  # 可选:限制可用工具(只读审查)\ncontext: fork                  # 可选:在分叉上下文运行,不占主对话\nagent: Explore                 # 可选:交给内置/自定义子代理执行\nuser-invocable: false          # 可选:仅 Claude 自动调用,不出现在斜杠菜单\n---\n\n# 审查流程\n1. 用 Grep 定位改动涉及的模块与调用方\n2. 对照 references/checklist.md 逐项检查\n3. 输出:阻断项 / 建议项 / 可忽略项 三档报告\n\n# Gotchas(最有价值的一节:真实踩过的坑)\n- webhooks 目录的签名校验改动一律标记为阻断项";
+
+<Term title="my-skill/SKILL.md — 逐字段注解" copyTarget="#tpl-skill" codeId="tpl-skill" content={skillTpl} />
+
+<p class="fig-note">文件夹里还可以放 <span class="mono">references/</span>(参考资料)、<span class="mono">scripts/</span>(可执行脚本)、<span class="mono">assets/</span>(模板产物)——在正文里告诉 Claude 它们的存在,它会在合适时机自己去读。自定义斜杠命令已并入 Skills:<span class="mono">.claude/skills/deploy/SKILL.md</span> 自动获得 <span class="mono">/deploy</span> 命令。</p>
+
+## 存放位置速查
+
+<div class="loc-table">
+  <div class="loc-row head"><div>路径</div><div>作用域</div></div>
+  <div class="loc-row"><div>{'~/.claude/skills/<名>/'}</div><div>个人 Skill,你的所有项目可用</div></div>
+  <div class="loc-row"><div>{'.claude/skills/<名>/'}</div><div>项目 Skill,随 git 与团队共享</div></div>
+  <div class="loc-row"><div>插件 plugins/…/skills/</div><div>随 /plugin 安装,可捆绑 hooks / 子代理 / MCP</div></div>
+  <div class="loc-row"><div>{'.claude/agents/<名>.md'}</div><div>子代理定义;frontmatter 加 skills: 字段可为其预载指定 Skills</div></div>
+</div>
+
+<p class="fig-note">Skill 目录支持热更新:在会话中新增或修改 Skill 立即生效,无需重启(新建顶层 skills 目录除外)。</p>
+
+<SecNote>安装第三方 Skill 前先通读它的 SKILL.md 与 scripts/——技能会影响 Claude 的行为并可能执行代码。优先官方与知名来源;来源存疑时,用 NVIDIA 开源的 Agent Skill 安全扫描器等工具审计 prompt injection、数据外泄与工具投毒风险。</SecNote>

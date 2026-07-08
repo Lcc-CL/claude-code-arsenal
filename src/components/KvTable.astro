@@ -1,0 +1,22 @@
+---
+// KvTable · 键值表(基准 .kv;值允许携带基准中的内联标记,set:html 渲染)
+export interface Row {
+  k: string;
+  v: string;
+}
+
+export interface Props {
+  rows: Row[];
+}
+
+const { rows } = Astro.props;
+---
+
+<div class="kv">
+  {rows.map(row => (
+    <div class="kv-row">
+      <div class="kv-k">{row.k}</div>
+      <div class="kv-v" set:html={row.v} />
+    </div>
+  ))}
+</div>

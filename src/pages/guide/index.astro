@@ -1,0 +1,42 @@
+---
+// /guide · 学习指南索引
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../../components/ChapterHead.astro';
+
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+---
+
+<Site
+  title="学习指南 — Claude Code Arsenal · 装备手册"
+  description="CLAUDE.md 编写守则、SKILL.md 逐字段剖析、高频排障与术语表——把 Skills 与记忆用对的四篇必读。"
+>
+  <section class="ch" id="guides" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="学习指南 / GUIDES"
+        title="把技能与记忆用对的四篇必读"
+        lede="编写守则、逐字段剖析、高频排障与术语表;全部依据官方文档与社区最佳实践整理。"
+      />
+      <div class="cards reveal">
+        {guides.map(g => (
+          <div class="card">
+            <div class="card-top">
+              <span class="card-name"><a href={`/guide/${g.id}`}>{g.data.title}</a></span>
+            </div>
+            <p class="card-desc">{g.data.description}</p>
+            <div class="guide-card-meta">GUIDE 0{g.data.order} · 更新于 {fmt(g.data.updatedAt)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Site>
+
+<style>
+  .card-name a { color: var(--ink); border-bottom: none; }
+  .card-name a:hover { color: var(--blue); }
+</style>

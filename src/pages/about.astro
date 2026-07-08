@@ -1,0 +1,64 @@
+---
+// /about · 站点定位 + 权威来源清单(基准第 07 章)+ 投稿收录说明
+import Site from '../layouts/Site.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+
+const sources = [
+  { name: 'Claude Code 官方文档 · Skills', u: 'code.claude.com/docs/en/skills', href: 'https://code.claude.com/docs/en/skills' },
+  { name: 'Claude Code 官方文档 · Memory / CLAUDE.md', u: 'code.claude.com/docs/en/memory', href: 'https://code.claude.com/docs/en/memory' },
+  { name: 'Claude Code 官方最佳实践', u: 'code.claude.com/docs/en/best-practices', href: 'https://code.claude.com/docs/en/best-practices' },
+  { name: 'anthropics/skills 官方仓库', u: 'github.com/anthropics/skills', href: 'https://github.com/anthropics/skills' },
+  { name: '官方插件目录', u: 'github.com/anthropics/claude-plugins-official', href: 'https://github.com/anthropics/claude-plugins-official' },
+  { name: 'Agent Skills 总览(API 平台文档)', u: 'platform.claude.com/docs', href: 'https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview' },
+  { name: 'Anthropic 工程博客 · Agent Skills', u: 'anthropic.com/engineering', href: 'https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills' },
+  { name: 'Agent Skills 开放标准', u: 'agentskills.io', href: 'https://agentskills.io' },
+  { name: 'skills.sh 技能生态(Vercel)', u: 'skills.sh', href: 'https://skills.sh' },
+  { name: 'What are skills?(官方支持中心)', u: 'support.claude.com', href: 'https://support.claude.com/en/articles/12512176-what-are-skills' },
+  { name: 'awesome-agent-skills 中文终极指南', u: 'github.com/libukai/awesome-agent-skills', href: 'https://github.com/libukai/awesome-agent-skills' },
+  { name: 'claude-code-skills-zh 中文精选', u: 'github.com/laolaoshiren', href: 'https://github.com/laolaoshiren/claude-code-skills-zh' },
+];
+---
+
+<Site
+  title="关于本站 — Claude Code Arsenal · 装备手册"
+  description="Claude Code Arsenal 的定位、权威来源清单与投稿收录说明:新增一条收录只需一个 yaml 文件。"
+>
+  <section class="ch" id="about">
+    <div class="wrap">
+      <ChapterHead
+        tag="关于本站 / ABOUT"
+        title="一本给 Claude Code 开发者的装备手册"
+        lede="本手册实时汇集 Anthropic 官方仓库与各大权威社区的精选 Skills,并提供经过最佳实践打磨的全局 / 项目 / 目录 / 个人四层 CLAUDE.md 模板——每一段都可直接复制落地,附完整开发者使用说明。"
+      />
+      <p class="reveal" style="color:var(--muted);max-width:64ch">站长本人的学习笔记,同时服务中文 Claude Code 开发者:找到一个 Skill 或模板 → 一键复制安装命令 / 模板全文 → 回终端开工。纯静态站,无后端、无登录;内容以数据文件驱动,持续修订。</p>
+    </div>
+  </section>
+
+  <section class="ch" id="sources">
+    <div class="wrap">
+      <ChapterHead
+        tag="第 07 章 / SOURCES"
+        title="本手册的权威来源"
+        lede="所有事实性内容依据以下官方文档与公开仓库整理;生态更新极快,以链接内的最新版本为准。"
+      />
+      <div class="src-grid reveal">
+        {sources.map(s => (
+          <a href={s.href} target="_blank" rel="noopener">{s.name}<span class="u">{s.u}</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="contribute" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="投稿 / CONTRIBUTE"
+        title="新增一条收录 = 一个 yaml 文件"
+        lede="本站内容全部来自 content collections:收录一个新 Skill 或资源,只需在 GitHub 仓库发起 PR 新增一个小文件,通过 schema 校验即可上线。"
+      />
+      <div class="reveal">
+        <p style="color:var(--muted);max-width:64ch">Skill 收录到 <span class="mono" style="font-size:12.5px">src/content/skills/&lt;slug&gt;.yaml</span>(name / origin / category / summary / usageExample / install / sourceUrl),资源收录到 <span class="mono" style="font-size:12.5px">src/content/resources/&lt;slug&gt;.yaml</span>。请附来源链接;第三方 Skill 建议先过一遍安全审计。</p>
+      </div>
+    </div>
+  </section>
+</Site>

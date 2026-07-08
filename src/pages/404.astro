@@ -1,0 +1,17 @@
+---
+// 404 · 终端风:command not found
+import Site from '../layouts/Site.astro';
+import Term from '../components/Term.astro';
+
+const nl = '\n';
+---
+
+<Site title="404 · command not found — Claude Code Arsenal" description="页面不存在:command not found。">
+  <section class="ch" style="border-bottom:none">
+    <div class="wrap" style="max-width:640px">
+      <div class="reveal in">
+        <Term title="claude — 404"><span class="t-g">$</span> open 该页面{nl}<span class="t-c">zsh:</span> command not found: <span class="t-y">该页面</span>{nl}{nl}<span class="t-c"># 它可能被移动、改名,或从未存在过。</span>{nl}<span class="t-g">$</span> cd <a href="/" style="color:var(--term-blue);border-bottom-color:rgba(147,178,255,.4)">返回首页</a><span class="caret"></span></Term>
+      </div>
+    </div>
+  </section>
+</Site>

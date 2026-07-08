@@ -1,0 +1,35 @@
+---
+// RuleColumns · DO / DON'T 双栏守则(基准 .rules/.rule-col)
+export interface Rule {
+  text: string;
+  why: string;
+}
+
+export interface Props {
+  goodTitle?: string;
+  badTitle?: string;
+  good: Rule[];
+  bad: Rule[];
+}
+
+const { goodTitle = "DO / 值得写", badTitle = "DON'T / 别写", good, bad } = Astro.props;
+---
+
+<div class="rules reveal">
+  <div class="rule-col good">
+    <h3>{goodTitle}</h3>
+    <ul>
+      {good.map(rule => (
+        <li>{rule.text}<span class="why">{rule.why}</span></li>
+      ))}
+    </ul>
+  </div>
+  <div class="rule-col bad">
+    <h3>{badTitle}</h3>
+    <ul>
+      {bad.map(rule => (
+        <li>{rule.text}<span class="why">{rule.why}</span></li>
+      ))}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+name: theme-factory
+slug: theme-factory
+origin: official
+category: art
+summary: 为任意 Artifact 套用成套主题:配色、字体与组件风格一次到位,适合批量保持视觉一致。
+usageExample: 用 theme-factory 给这个报告套一套深色学术主题
+install:
+  method: plugin
+  command: /plugin install example-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [主题, 视觉]
+featured: false
+order: 13
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

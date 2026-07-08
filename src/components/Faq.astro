@@ -1,0 +1,22 @@
+---
+// Faq · 折叠问答(基准 details/summary;答案允许携带 <code> 内联标记)
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {items.map(item => (
+    <details>
+      <summary>{item.q}</summary>
+      <div class="a" set:html={item.a} />
+    </details>
+  ))}
+</div>

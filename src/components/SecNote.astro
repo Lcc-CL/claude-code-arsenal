@@ -1,0 +1,10 @@
+---
+// SecNote · 安全提示框(基准 .sec-note,荧黄底)
+export interface Props {
+  tag?: string;
+}
+
+const { tag = 'SECURITY /' } = Astro.props;
+---
+
+<div class="sec-note"><b>{tag}</b> <slot /></div>

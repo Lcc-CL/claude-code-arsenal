@@ -1138,3 +1138,79 @@ details .a code {
   color: var(--faint);
   display: block;
 }
+
+/* ===== P1 · 指南页(仅排版组装,颜色全部取自 tokens) ===== */
+.fig-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 12px;
+  line-height: 1.7;
+}
+
+.guide-layout {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 44px;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .guide-layout { grid-template-columns: 1fr; }
+  .guide-toc { display: none; }
+}
+
+.guide-toc {
+  position: sticky;
+  top: 90px;
+  border-left: 1px solid var(--line);
+  padding-left: 18px;
+}
+
+.guide-toc-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--faint);
+  margin-bottom: 10px;
+}
+
+.guide-toc a {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+  border-bottom: none;
+  padding: 4px 0;
+}
+
+.guide-toc a:hover { color: var(--blue); }
+
+.guide-body { max-width: 72ch; }
+
+.guide-body h2 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  margin: 34px 0 14px;
+}
+
+.guide-body p { margin: 14px 0; }
+
+.guide-body p strong { font-family: var(--mono); font-size: 14px; }
+
+.guide-body code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--blue-wash);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--blue-deep);
+}
+
+.guide-body .rules { margin-top: 22px; }
+
+.guide-card-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--faint);
+  letter-spacing: .06em;
+}

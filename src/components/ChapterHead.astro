@@ -1,16 +1,17 @@
 ---
-// ChapterHead · 章节头
+// ChapterHead · 章节头(ledeHtml:基准 lede 含内联链接/荧光笔时使用)
 export interface Props {
   tag: string;
   title: string;
-  lede: string;
+  lede?: string;
+  ledeHtml?: string;
 }
 
-const { tag, title, lede } = Astro.props;
+const { tag, title, lede, ledeHtml } = Astro.props;
 ---
 
 <div class="ch-head reveal">
   <div class="ch-tag">{tag}</div>
   <h2>{title}</h2>
-  <p class="ch-lede">{lede}</p>
+  {ledeHtml ? <p class="ch-lede" set:html={ledeHtml} /> : lede && <p class="ch-lede">{lede}</p>}
 </div>

@@ -1,0 +1,15 @@
+name: xlsx
+slug: xlsx
+origin: official
+category: doc
+summary: Excel 读写、公式、格式化、数据分析与可视化。四个文档 Skills 可串成流水线:PDF 抽取 → Excel 分析 → Word 报告 → PPT 汇报。
+usageExample: 用 xlsx skill 把 sales.csv 做成带图表的分析表
+install:
+  method: plugin
+  command: /plugin install document-skills@anthropic-agent-skills
+sourceUrl: https://github.com/anthropics/skills
+tags: [文档, Excel]
+featured: false
+order: 4
+addedAt: 2026-07-06
+lastVerified: 2026-07-06

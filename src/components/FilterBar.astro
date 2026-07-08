@@ -1,0 +1,66 @@
+---
+// FilterBar · 技能筛选(基准 .filters/.fbtn;类别 × 来源 双维,计数随筛选实时变化)
+export interface Props {
+  cards: { category: string; origin: string }[];
+}
+
+const { cards } = Astro.props;
+
+const cats = [
+  { key: 'all', label: '全部' },
+  { key: 'doc', label: '文档处理' },
+  { key: 'dev', label: '开发工程' },
+  { key: 'art', label: '创意视觉' },
+  { key: 'team', label: '协作沟通' },
+];
+const origins = [
+  { key: 'all', label: '全部来源' },
+  { key: 'official', label: '官方' },
+  { key: 'community', label: '社区' },
+];
+
+const catCount = (key: string) => (key === 'all' ? cards.length : cards.filter(c => c.category === key).length);
+const originCount = (key: string) => (key === 'all' ? cards.length : cards.filter(c => c.origin === key).length);
+---
+
+<div class="filters reveal" role="group" aria-label="按类别筛选">
+  {cats.map((c, i) => (
+    <button class={`fbtn${i === 0 ? ' on' : ''}`} data-filter={c.key} data-label={c.label}>{c.label} · {catCount(c.key)}</button>
+  ))}
+</div>
+<div class="filters reveal" role="group" aria-label="按来源筛选" style="margin-top:-10px">
+  {origins.map((o, i) => (
+    <button class={`fbtn${i === 0 ? ' on' : ''}`} data-origin-filter={o.key} data-label={o.label}>{o.label} · {originCount(o.key)}</button>
+  ))}
+</div>
+
+<script>
+  const catBtns = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const originBtns = [...document.querySelectorAll<HTMLButtonElement>('[data-origin-filter]')];
+  const cards = [...document.querySelectorAll<HTMLElement>('.cards .card')];
+
+  let cat = 'all';
+  let origin = 'all';
+
+  const match = (el: HTMLElement, c: string, o: string) =>
+    (c === 'all' || el.dataset.cat === c) && (o === 'all' || el.dataset.origin === o);
+
+  function apply() {
+    cards.forEach(el => el.classList.toggle('hidden', !match(el, cat, origin)));
+    catBtns.forEach(b => {
+      const key = b.dataset.filter!;
+      const n = cards.filter(el => match(el, key, origin)).length;
+      b.textContent = `${b.dataset.label} · ${n}`;
+      b.classList.toggle('on', key === cat);
+    });
+    originBtns.forEach(b => {
+      const key = b.dataset.originFilter!;
+      const n = cards.filter(el => match(el, cat, key)).length;
+      b.textContent = `${b.dataset.label} · ${n}`;
+      b.classList.toggle('on', key === origin);
+    });
+  }
+
+  catBtns.forEach(b => b.addEventListener('click', () => { cat = b.dataset.filter!; apply(); }));
+  originBtns.forEach(b => b.addEventListener('click', () => { origin = b.dataset.originFilter!; apply(); }));
+</script>

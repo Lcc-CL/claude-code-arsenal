@@ -1,0 +1,40 @@
+---
+title: 术语表
+description: 本手册高频出现的概念速查:Skill、四层记忆、渐进披露、Hook、子代理与 MCP,每条一句话说清。
+order: 4
+updatedAt: 2026-07-06
+---
+
+## Skill 相关
+
+**Skill** — 教 Claude「怎么做一类事」的自包含文件夹,核心是一份 SKILL.md;任务匹配时自动加载,也可在对话里点名调用。
+
+**SKILL.md** — Skill 的入口文件。frontmatter 的 `name` 决定命令名、`description` 决定何时触发,正文写步骤与踩坑记录。
+
+**渐进披露** — Skill 的加载策略:启动只读约 100 token 元数据,任务匹配才加载正文,references / scripts / assets 按需再读。
+
+**技能市场(Marketplace)** — 通过 `/plugin marketplace add` 接入的技能来源,如官方的 anthropics/skills;接入后用 `/plugin install` 安装。
+
+**斜杠命令** — 会话内以 `/` 开头的指令。自定义斜杠命令已并入 Skills:`.claude/skills/deploy/SKILL.md` 自动获得 `/deploy` 命令。
+
+## 记忆相关
+
+**CLAUDE.md** — 每个会话启动即注入上下文的记忆文件,分四层:全局(`~/.claude/CLAUDE.md`)、项目(`./CLAUDE.md`)、目录级(如 `src/CLAUDE.md`)、个人(`CLAUDE.local.md`)。
+
+**CLAUDE.local.md** — 个人偏好层,放在仓库根目录并加入 .gitignore;启动即加载但不随仓库共享。
+
+**懒加载** — 目录级 CLAUDE.md 的加载方式:Claude 读到该目录下文件时才注入,兄弟目录互不可见。
+
+**@ 引用** — 在 CLAUDE.md 里用 `@README.md`、`@docs/architecture.md` 引用其他文件替代复述;支持相对/绝对路径,递归导入最深 5 层。
+
+**/init · /memory · /clear · /compact** — 四个记忆相关命令:生成项目 CLAUDE.md 草稿 / 查看编辑各层记忆 / 切断无关上下文 / 压缩长会话聚焦要点。
+
+## 扩展机制
+
+**Hook** — 在生命周期节点(如 PreToolUse)强制执行的动作;硬约束用 Hook,不看 Claude 心情。
+
+**子代理(Subagent)** — 定义在 `.claude/agents/<名>.md` 的独立执行者;frontmatter 加 `skills:` 字段可为其预载指定 Skills。
+
+**插件(Plugin)** — 通过 `/plugin` 安装的分发单元,可捆绑 Skills、Hooks、子代理与 MCP。
+
+**MCP** — Model Context Protocol,连接外部数据与系统的协议;先用 MCP 接入工具,再用 Skill 教 Claude 怎么用好它们。

@@ -1,0 +1,30 @@
+---
+// /skills · 技能目录:类别 × 来源筛选(文案平移自基准第 02 章)
+import { getCollection } from 'astro:content';
+import Site from '../layouts/Site.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+import FilterBar from '../components/FilterBar.astro';
+import SkillCard from '../components/SkillCard.astro';
+
+const skills = (await getCollection('skills')).map(e => e.data).sort((a, b) => a.order - b.order);
+---
+
+<Site
+  title="技能库 — Claude Code Arsenal · 装备手册"
+  description="Anthropic 官方仓库 17 个 Skills 全收录:文档处理、开发工程、创意视觉与协作沟通,按类别筛选,附调用示例。"
+>
+  <section class="ch" id="official" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="第 02 章 / OFFICIAL SKILLS"
+        title="Anthropic 官方仓库 · 17 个 Skills 全收录"
+        ledeHtml='全部来自 <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">github.com/anthropics/skills</a> 官方公开仓库。每个 Skill 是一个含 SKILL.md 的自包含文件夹,Claude 会在任务匹配时自动加载——你也可以在对话里直接点名调用。'
+      />
+      <FilterBar cards={skills.map(s => ({ category: s.category, origin: s.origin }))} />
+      <div class="cards reveal">
+        {skills.map(skill => <SkillCard skill={skill} />)}
+      </div>
+      <p class="bundle-note">※ 以上 Skills 已随 STEP 02 的两条 /plugin install 一并装入;Claude.ai 付费版则已内置,无需安装。每个 Skill 常驻上下文仅约 100 token 元数据,正文与资源按需渐进加载,装满 17 个也不拖慢会话。</p>
+    </div>
+  </section>
+</Site>

@@ -1,0 +1,32 @@
+---
+title: 高频排障
+description: Skill 不触发、CLAUDE.md 规则被无视、会话越长越笨——五个最常见问题的定位思路与修法。
+order: 3
+updatedAt: 2026-07-06
+---
+import Faq from '../../components/Faq.astro';
+
+export const faqs = [
+  {
+    q: 'Skill 不触发?',
+    a: '九成是 <code>description</code> 写得太抽象。补上三要素:做什么(列具体功能)、何时用、用户可能说的触发词(中英文口语都覆盖,如「审查 / review / 看看这个 PR」)。改完直接提一次相关请求验证。',
+  },
+  {
+    q: 'CLAUDE.md 规则被无视?',
+    a: '先跑 <code>/memory</code>:规则可能写在尚未懒加载的子目录文件里;再检查是否有两处规则互相矛盾(Claude 可能任选其一);仍不稳的硬约束,改写成 <code>PreToolUse</code> hook 强制执行。',
+  },
+  {
+    q: '会话越长越笨?',
+    a: '上下文接近装满时性能会下降。无关任务之间用 <code>/clear</code> 切断;长任务在填充率约七成时主动 <code>/compact 聚焦要点</code>;需要跨会话保留的结论,落盘到 CLAUDE.md 或让自动记忆(MEMORY.md)接手,别指望聊天记录。',
+  },
+  {
+    q: '装太多 Skills 有代价吗?',
+    a: '常驻成本极低(每个约 100 token 元数据),但描述相互重叠会让匹配变糊。同类只留最好的一个,让每个 Skill 只做一件事。',
+  },
+  {
+    q: 'Skill、CLAUDE.md、Hook、MCP 怎么分工?',
+    a: '硬性事实与规矩 → CLAUDE.md;多步骤的「怎么做」→ Skill(按需加载);必须强制执行的动作 → Hook;连接外部数据与系统 → MCP,再用 Skill 教 Claude 怎么用好这些工具。',
+  },
+];
+
+<Faq items={faqs} />

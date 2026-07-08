@@ -1,0 +1,8 @@
+name: awesome-agent-skills
+url: https://github.com/libukai/awesome-agent-skills
+desc: 中文《Agent Skills 终极指南》+ 官方 skill-creator 强化版工具箱,含创建/改进/测试技能的一整套斜杠命令。
+badge: 中文
+stars: 20.4k
+installCommand: /plugin marketplace add libukai/awesome-agent-skills
+installLabel: 复制安装
+order: 7

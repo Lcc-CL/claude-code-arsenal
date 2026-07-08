@@ -1,0 +1,32 @@
+---
+// SkillCard · 技能卡(基准 .card;P2 前卡片名外链 sourceUrl)
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  skill: CollectionEntry<'skills'>['data'];
+}
+
+const { skill } = Astro.props;
+
+const catLabel: Record<string, string> = {
+  doc: '文档',
+  dev: '开发',
+  art: '创意',
+  team: '协作',
+};
+---
+
+<div class="card" data-cat={skill.category} data-origin={skill.origin}>
+  <div class="card-top">
+    <span class="card-name"><a href={skill.sourceUrl} target="_blank" rel="noopener">{skill.name}</a></span>
+    <span class={`cat ${skill.category}`}>{catLabel[skill.category]}</span>
+  </div>
+  <p class="card-desc">{skill.summary}</p>
+  <div class="card-use">{skill.usageExample}</div>
+</div>
+
+<style>
+  /* 卡片名链接沿用卡片墨色,不带下划线(基准卡片名为纯文本) */
+  .card-name a { color: var(--ink); border-bottom: none; }
+  .card-name a:hover { color: var(--blue); }
+</style>

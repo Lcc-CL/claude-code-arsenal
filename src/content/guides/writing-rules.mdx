@@ -1,0 +1,31 @@
+---
+title: CLAUDE.md 编写守则
+description: "它每个会话都会整段注入上下文——每一行都在和真正重要的规则抢注意力。官方与社区共识高度一致:短、准、只写 Claude 猜不到的。"
+order: 1
+updatedAt: 2026-07-06
+---
+import Highlight from '../../components/Highlight.astro';
+import RuleColumns from '../../components/RuleColumns.astro';
+
+export const good = [
+  { text: '控制篇幅:社区普遍建议全文 200 行以内,精华版 80–120 行', why: '超长文件不会被逐字执行,只会被平均稀释' },
+  { text: '命令写全、写死:构建 / 测试 / lint / 迁移,连 flag 一起给', why: '这是单条价值最高的信息,能省掉 Claude 三轮瞎猜' },
+  { text: '只写「读代码猜不出、猜错代价高」的事实与禁区', why: '例:CI 的 Node 版本、不许动的迁移文件、签名校验逻辑' },
+  { text: '用 @ 引用替代复述:@README.md、@docs/architecture.md', why: '支持相对/绝对路径,递归导入最深 5 层' },
+  { text: '分层放置:行为进全局,事实进项目,局部规则进子目录', why: '懒加载让无关规则根本不进上下文' },
+  { text: '硬约束交给 Hooks(如「每次提交前必须跑 lint」)', why: 'Hook 在生命周期节点强制执行,不看 Claude 心情' },
+  { text: '定期跑 /memory 复查各层内容并修剪、消除互相矛盾的规则', why: '两处规则冲突时,Claude 可能任选其一' },
+];
+
+export const bad = [
+  { text: '人格设定:「你是一位资深工程师,请一步步思考」', why: '不改变具体行为的话 = 纯粹浪费指令预算' },
+  { text: 'Claude 一个会话就能自学的东西(文件命名规律、依赖清单)', why: '自动记忆(MEMORY.md)会替它记住,写了就是重复' },
+  { text: '多步骤操作流程', why: '该做成 Skill 按需加载,而不是每个会话硬扛' },
+  { text: '整段架构文档复制粘贴', why: '一行 @ 引用即可,需要时 Claude 自己会去读' },
+  { text: '真实密钥、token、密码——包括 CLAUDE.local.md 里', why: '写「去哪取」,不写值;这些文件不是保险箱' },
+  { text: '把 CLAUDE.md 当成强制开关', why: '它是上下文不是防线;要「无论如何都拦住」,用 PreToolUse hook' },
+];
+
+它每个会话都会整段注入上下文——<Highlight>每一行都在和真正重要的规则抢注意力</Highlight>。官方与社区共识高度一致:短、准、只写 Claude 猜不到的。
+
+<RuleColumns good={good} bad={bad} />

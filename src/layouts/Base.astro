@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 
 <!DOCTYPE html>
@@ -21,6 +22,7 @@ const { title, description } = Astro.props;
   <title>{title}</title>
   <meta name="description" content={description}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  {canonical && <link rel="canonical" href={canonical}>}
   <slot name="head" />
 </head>
 <body>

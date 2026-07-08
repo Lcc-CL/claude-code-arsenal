@@ -1,0 +1,92 @@
+---
+// /claude-md · 四层记忆模板库:MemoryTree + Tabs + 复制 + 下载(文案平移自基准第 04 章)
+import { getCollection } from 'astro:content';
+import Site from '../layouts/Site.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+import MemoryTree from '../components/MemoryTree.astro';
+import KvTable from '../components/KvTable.astro';
+import Term from '../components/Term.astro';
+
+const templates = (await getCollection('templates')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Site
+  title="CLAUDE.md 模板库 — Claude Code Arsenal · 装备手册"
+  description="全局/项目/目录/个人四层 CLAUDE.md 记忆模板,复制即用、可下载 .md;全局管行为,项目管事实,目录管局部,local 管隐私。"
+>
+  <section class="ch" id="templates" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="第 04 章 / CLAUDE.md TEMPLATES"
+        title="四层记忆模板 · 复制即用"
+        ledeHtml='四层各司其职:<span class="hl">全局管行为,项目管事实,目录管局部,local 管隐私</span>。以下模板依据官方文档与社区最佳实践编写并刻意保持精简——请以它为骨架填入你的真实信息,而不是原样照贴。'
+      />
+      <div class="reveal" style="max-width:640px;margin-bottom:34px">
+        <MemoryTree />
+      </div>
+      <div class="tabs reveal" role="tablist">
+        {templates.map((t, i) => (
+          <button class={`tab${i === 0 ? ' on' : ''}`} data-tab={t.data.layer} role="tab">{t.data.tabLabel}</button>
+        ))}
+      </div>
+      {templates.map((t, i) => (
+        <div class={`panel${i === 0 ? ' on' : ''} reveal`} data-panel={t.data.layer}>
+          <div class="panel-info">
+            <h3><span class="scope-badge">{t.data.scopeLabel}</span>{t.data.title}</h3>
+            <KvTable rows={[
+              { k: '保存路径', v: t.data.savePath },
+              { k: '加载时机', v: t.data.loadTiming },
+              { k: '放什么', v: t.data.put.join('') },
+              { k: '别放什么', v: t.data.avoid.join('') },
+            ]} />
+          </div>
+          <Term
+            title={t.data.termTitle}
+            copyTarget={`#tpl-${t.data.layer}`}
+            codeId={`tpl-${t.data.layer}`}
+            content={(t.body ?? '').trim()}
+          >
+            <button
+              slot="actions"
+              class="copy"
+              data-download-target={`#tpl-${t.data.layer}`}
+              data-filename={t.data.layer === 'local' ? 'CLAUDE.local.md' : 'CLAUDE.md'}
+            >下载 .md</button>
+          </Term>
+        </div>
+      ))}
+    </div>
+  </section>
+</Site>
+
+<script>
+  // Tabs 切换(基准同源逻辑)
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
+  tabs.forEach(t => {
+    t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+      const k = t.getAttribute('data-tab');
+      document.querySelectorAll<HTMLElement>('.panel').forEach(p => {
+        p.classList.toggle('on', p.getAttribute('data-panel') === k);
+      });
+    });
+  });
+
+  // 下载 .md(Blob;文件名:全局/项目/目录层 CLAUDE.md,个人层 CLAUDE.local.md)
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-download-target]');
+    if (!btn) return;
+    const el = document.querySelector(btn.dataset.downloadTarget!);
+    if (!el) return;
+    const blob = new Blob([el.textContent ?? ''], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = btn.dataset.filename ?? 'CLAUDE.md';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+</script>
