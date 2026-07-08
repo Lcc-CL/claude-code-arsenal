@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" fill="none" stroke="rgba(220,231,222,.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#0C1410"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <!-- 终端窗 -->
+  <rect x="72" y="72" width="1056" height="486" rx="16" fill="#0A100C" stroke="#24332A" stroke-width="2"/>
+  <rect x="72" y="72" width="1056" height="52" rx="16" fill="#121B15"/>
+  <rect x="72" y="108" width="1056" height="16" fill="#121B15"/>
+  <circle cx="110" cy="98" r="7" fill="#e0655a"/>
+  <circle cx="134" cy="98" r="7" fill="#e3b53f"/>
+  <circle cx="158" cy="98" r="7" fill="#57b078"/>
+  <text x="190" y="104" fill="#7E9386" font-family="JetBrains Mono, Menlo, monospace" font-size="16" letter-spacing="1">claude — arsenal</text>
+  <!-- 内容 -->
+  <text x="128" y="196" fill="#7CE3A5" font-family="JetBrains Mono, Menlo, monospace" font-size="22">$ claude --arm</text>
+  <text x="128" y="296" fill="#DCE7DE" font-family="JetBrains Mono, Menlo, monospace" font-size="76" font-weight="700" letter-spacing="-2">ARM YOUR AGENT</text>
+  <rect x="836" y="242" width="34" height="62" fill="#FFD84D"/>
+  <text x="128" y="368" fill="#DCE7DE" font-family="PingFang SC, Noto Sans SC, sans-serif" font-size="34" font-weight="700">把 Claude Code <tspan fill="#FFD84D">武装到牙齿</tspan>。</text>
+  <text x="128" y="436" fill="#8FA396" font-family="PingFang SC, Noto Sans SC, sans-serif" font-size="22">精选 Skills × 四层 CLAUDE.md 模板 × 权威资源 — 复制,粘贴,开工。</text>
+  <!-- 底栏 -->
+  <text x="128" y="516" fill="#5F7166" font-family="JetBrains Mono, Menlo, monospace" font-size="18" letter-spacing="2">ARSENAL_ · CC·FIELD MANUAL</text>
+  <text x="1072" y="516" fill="#5F7166" font-family="JetBrains Mono, Menlo, monospace" font-size="18" text-anchor="end">by Cc @Lcc01_cc</text>
+</svg>

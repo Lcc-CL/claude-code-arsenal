@@ -1,0 +1,44 @@
+---
+// /changelog · 更新日志(数据源:仓库根 CHANGELOG.md)
+import { readFileSync } from 'node:fs';
+import Site from '../layouts/Site.astro';
+import ChapterHead from '../components/ChapterHead.astro';
+
+const raw = readFileSync(new URL('../../CHANGELOG.md', import.meta.url), 'utf8');
+const sections = raw
+  .split(/^## /m)
+  .slice(1)
+  .map(block => {
+    const [head, ...rest] = block.split('\n');
+    const items = rest.filter(l => l.startsWith('- ')).map(l => l.slice(2));
+    return { head: head.trim(), items };
+  });
+---
+
+<Site
+  title="更新日志 — Claude Code Arsenal · 装备手册"
+  description="Claude Code Arsenal 的收录与功能变更记录:新增 Skills、模板修订与站点能力更新。"
+>
+  <section class="ch" style="border-bottom:none">
+    <div class="wrap" style="max-width:760px">
+      <ChapterHead
+        tag="$ git log · CHANGELOG"
+        title="更新日志"
+        lede="每一批收录与功能变更都记录在案;星数快照由 GitHub Action 每周自动刷新。"
+      />
+      {sections.map(sec => (
+        <div class="reveal" style="margin-bottom:30px">
+          <h3 class="mono" style="font-size:14px;letter-spacing:.02em;margin-bottom:4px">{sec.head}</h3>
+          <ul style="list-style:none;margin-top:8px">
+            {sec.items.map(item => (
+              <li style="padding:7px 0 7px 20px;border-top:1px solid var(--line);font-size:13.5px;position:relative;color:var(--muted)">
+                <span class="mono" style="position:absolute;left:2px;color:var(--term-green, #7CE3A5)" aria-hidden="true">+</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</Site>

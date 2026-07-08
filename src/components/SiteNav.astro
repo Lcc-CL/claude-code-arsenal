@@ -1,5 +1,5 @@
 ---
-// SiteNav · 粘性导航
+// SiteNav v2 · 粘性导航:品牌 + 当前页高亮 + ⌘K 搜索 + 主题切换(vim 命令式)
 export interface Link {
   label: string;
   href: string;
@@ -11,15 +11,40 @@ export interface Props {
 }
 
 const { links } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 
-<nav class="nav" aria-label="章节导航">
+<nav class="nav" aria-label="站点导航">
   <div class="wrap">
     <div class="nav-in">
-      <span class="nav-brand">ARSENAL<span class="dot">_</span></span>
+      <span class="nav-brand"><a href="/">ARSENAL<span class="dot">_</span></a></span>
       {links.map(link => (
-        <a class="chip" href={link.href}><b>{link.num}</b>{link.label}</a>
+        <a class="chip" href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}><b>{link.num}</b>{link.label}</a>
       ))}
+      <div class="nav-actions">
+        <button class="nav-btn" data-palette-open aria-label="打开搜索面板">搜索 <kbd>⌘K</kbd></button>
+        <button class="nav-btn" data-theme-toggle aria-label="切换配色主题">:light</button>
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  // 主题切换:按钮文案显示「将要切去的那个」,像 vim 命令
+  const btn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const root = document.documentElement;
+
+  function sync() {
+    if (btn) btn.textContent = root.getAttribute('data-theme') === 'dark' ? ':light' : ':dark';
+  }
+
+  btn?.addEventListener('click', () => {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    if (dark) root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', dark ? 'light' : 'dark');
+    sync();
+  });
+  sync();
+</script>

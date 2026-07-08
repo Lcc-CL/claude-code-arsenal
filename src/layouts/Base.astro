@@ -12,6 +12,7 @@ interface Props {
 
 const { title, description } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
 ---
 
 <!DOCTYPE html>
@@ -23,6 +24,20 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
   <meta name="description" content={description}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   {canonical && <link rel="canonical" href={canonical}>}
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:image" content={ogImage}>
+  {canonical && <meta property="og:url" content={canonical}>}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@Lcc01_cc">
+  <script is:inline>
+    // 主题初始化(渲染前执行防闪烁):默认暗色 = 终端本色;浅色 = 打印版手册
+    (function () {
+      var t = localStorage.getItem('theme') || 'dark';
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
   <slot name="head" />
 </head>
 <body>

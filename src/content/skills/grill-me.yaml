@@ -1,0 +1,15 @@
+name: grill-me
+slug: grill-me
+origin: community
+category: team
+summary: Matt Pocock 出品的「拷问」技能:动工前对你的方案穷追猛打地提问,专治想当然的架构决策。
+usageExample: 用 grill-me 拷问一下我这个重构方案
+install:
+  method: npx
+  command: npx skills add mattpocock/skills/grill-me
+sourceUrl: https://github.com/mattpocock/skills
+tags: [方案评审, 提问]
+featured: false
+order: 24
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

@@ -1,0 +1,32 @@
+name: sync-stars
+
+on:
+  schedule:
+    - cron: '17 2 * * 1' # 每周一 02:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Refresh resource stars
+        run: node scripts/sync-stars.mjs | tee sync.log
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Open PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/sync-stars
+          commit-message: 'chore: 周更资源星数快照'
+          title: 'chore: 周更资源星数快照'
+          body-path: sync.log
+          add-paths: src/content/resources/*.yaml
+          delete-branch: true

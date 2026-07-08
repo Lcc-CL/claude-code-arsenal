@@ -37,6 +37,8 @@ const resources = defineCollection({
     // installLabel:基准中按钮文案有三种(复制安装/复制命令/复制示例),需随数据保留
     installLabel: z.string().optional(),
     order: z.number(),
+    // lastVerified:由 sync-stars Action 周更写入
+    lastVerified: z.coerce.date().optional(),
   }),
 });
 

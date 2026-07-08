@@ -1,0 +1,15 @@
+name: web-design-guidelines
+slug: web-design-guidelines
+origin: community
+category: art
+summary: Vercel 的网页设计守则:排版、间距、对比与可访问性的硬性检查单,skills.sh 装机榜前列。
+usageExample: 按 web-design-guidelines 审一遍这个页面的排版
+install:
+  method: npx
+  command: npx skills add vercel-labs/agent-skills/web-design-guidelines
+sourceUrl: https://github.com/vercel-labs/agent-skills
+tags: [设计, 守则]
+featured: false
+order: 25
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

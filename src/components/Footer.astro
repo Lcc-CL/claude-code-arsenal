@@ -1,12 +1,18 @@
 ---
-// Footer · 页脚（静态文案来自 reference）
+// Footer v2 · 品牌 + 作者署名 + slogan
+const year = new Date().getFullYear();
 ---
 
-<footer>
+<footer class="footer-v2">
   <div class="wrap">
-    <div class="frow">
-      <span>CC·FIELD MANUAL — CCA-2026-07 · 为 Claude Code 开发者整理</span>
-      <span>纸上得来终觉浅 · <span style="color:var(--blue)">复制,粘贴,开工。</span></span>
+    <div class="footer-frame">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">ARSENAL<span class="dot">_</span> · CC·FIELD MANUAL</div>
+          <div class="footer-meta" style="margin-top:6px">AUTHOR — Cc <a href="https://x.com/Lcc01_cc" target="_blank" rel="noopener">@Lcc01_cc</a> · © {year} · <a href="/changelog">更新日志</a> · 为 Claude Code 开发者整理</div>
+        </div>
+        <div class="footer-slogan">纸上得来终觉浅 · <b>复制,粘贴,开工。</b></div>
+      </div>
     </div>
   </div>
 </footer>

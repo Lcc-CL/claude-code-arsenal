@@ -1,0 +1,99 @@
+---
+// CommandPalette · ⌘K 终端风命令面板:全站条目检索(skills/templates/guides/resources/页面)
+import { getCollection } from 'astro:content';
+
+const skills = await getCollection('skills');
+const resources = await getCollection('resources');
+const templates = await getCollection('templates');
+const guides = await getCollection('guides');
+
+type Item = { t: string; name: string; desc: string; url: string };
+
+const items: Item[] = [
+  { t: 'page', name: '首页', desc: 'ARM YOUR AGENT — 装备总览', url: '/' },
+  { t: 'page', name: '技能库', desc: '官方 + 社区 Skills,按类别与来源筛选', url: '/skills' },
+  { t: 'page', name: 'CLAUDE.md 模板', desc: '四层记忆模板,复制即用', url: '/claude-md' },
+  { t: 'page', name: '学习指南', desc: '守则 / 剖析 / 排障 / 术语表', url: '/guide' },
+  { t: 'page', name: '资源库', desc: '权威社区资源精选', url: '/resources' },
+  { t: 'page', name: '更新日志', desc: '本站收录与功能变更', url: '/changelog' },
+  { t: 'page', name: '关于本站', desc: '定位 / 来源 / 投稿', url: '/about' },
+  ...skills.map(s => ({ t: 'skill', name: s.data.name, desc: s.data.summary, url: '/skills' })),
+  ...templates.map(t => ({ t: 'tpl', name: t.data.tabLabel, desc: t.data.title, url: '/claude-md' })),
+  ...guides.map(g => ({ t: 'guide', name: g.data.title, desc: g.data.description, url: `/guide/${g.id}` })),
+  ...resources.map(r => ({ t: 'res', name: r.data.name, desc: r.data.desc, url: '/resources' })),
+];
+
+const kindClass: Record<string, string> = { skill: '', tpl: 't-tpl', guide: 't-tpl', res: 't-res', page: 't-page' };
+const kindLabel: Record<string, string> = { skill: 'SKILL', tpl: 'CLAUDE.md', guide: 'GUIDE', res: 'RES', page: 'PAGE' };
+---
+
+<div class="palette" id="palette" hidden>
+  <div class="palette-box" role="dialog" aria-modal="true" aria-label="全站搜索">
+    <div class="palette-input-row">
+      <span aria-hidden="true">$</span>
+      <input class="palette-input" type="text" placeholder="搜 skill / 模板 / 指南 / 资源 …" spellcheck="false" autocomplete="off">
+    </div>
+    <div class="palette-list" role="listbox">
+      {items.map(item => (
+        <a class="palette-item" role="option" href={item.url} data-search={`${item.name} ${item.desc}`.toLowerCase()}>
+          <span class={`k ${kindClass[item.t]}`}>{kindLabel[item.t]}</span>
+          <span class="name">{item.name}</span>
+          <span class="desc">{item.desc}</span>
+        </a>
+      ))}
+      <div class="palette-empty" hidden>no matches found — 换个关键词试试</div>
+    </div>
+    <div class="palette-foot"><span>↑↓ 选择</span><span>↵ 前往</span><span>esc 关闭</span></div>
+  </div>
+</div>
+
+<script>
+  const palette = document.getElementById('palette')!;
+  const input = palette.querySelector<HTMLInputElement>('.palette-input')!;
+  const empty = palette.querySelector<HTMLElement>('.palette-empty')!;
+  const all = [...palette.querySelectorAll<HTMLAnchorElement>('.palette-item')];
+  let visible: HTMLAnchorElement[] = all;
+  let idx = 0;
+
+  function open() {
+    palette.hidden = false;
+    input.value = '';
+    filter('');
+    input.focus();
+  }
+  function close() {
+    palette.hidden = true;
+  }
+  function mark() {
+    visible.forEach((el, i) => el.classList.toggle('active', i === idx));
+    visible[idx]?.scrollIntoView({ block: 'nearest' });
+  }
+  function filter(q: string) {
+    const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+    visible = all.filter(el => {
+      const hay = el.dataset.search!;
+      const hit = terms.every(t => hay.includes(t));
+      el.hidden = !hit;
+      return hit;
+    });
+    empty.hidden = visible.length > 0;
+    idx = 0;
+    mark();
+  }
+
+  document.querySelectorAll('[data-palette-open]').forEach(b => b.addEventListener('click', open));
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      palette.hidden ? open() : close();
+      return;
+    }
+    if (palette.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx + 1, visible.length - 1); mark(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx - 1, 0); mark(); }
+    else if (e.key === 'Enter' && visible[idx]) { window.location.href = visible[idx].href; }
+  });
+  input.addEventListener('input', () => filter(input.value));
+  palette.addEventListener('click', (e) => { if (e.target === palette) close(); });
+</script>

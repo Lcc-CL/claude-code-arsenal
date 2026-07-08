@@ -2,7 +2,6 @@
 // 首页:铭牌 + Hero(记忆层级图)+ 三步快速开始 + 精选入口(SPEC 第 6 节)
 import { getCollection } from 'astro:content';
 import Site from '../layouts/Site.astro';
-import MemoryTree from '../components/MemoryTree.astro';
 import Term from '../components/Term.astro';
 import SkillCard from '../components/SkillCard.astro';
 import ResourceRow from '../components/ResourceRow.astro';
@@ -26,34 +25,56 @@ const step2Copy = `/plugin marketplace add anthropics/skills
   title="Claude Code Arsenal · 装备手册 — Skills 与 CLAUDE.md 精选库"
   description="精选 Anthropic 官方 Skills、权威社区资源与全局/项目/目录级 CLAUDE.md 模板,附完整开发者使用说明。"
 >
-  <!-- HERO -->
-  <div class="hero">
+  <!-- HERO v2 · 装配序列 -->
+  <div class="hero-v2">
     <div class="wrap">
       <div class="hero-grid">
         <div class="reveal">
-          <div class="eyebrow">Claude Code Arsenal / 装备手册</div>
-          <h1 class="display">SKILLS +<br>CLAUDE<span class="thin">.md</span></h1>
-          <p class="hero-sub">给 Claude Code 配上<span class="hl">正确的技能</span>与<span class="hl">正确的记忆</span>,它才像一位老同事。</p>
-          <p class="hero-lede">本手册实时汇集 Anthropic 官方仓库与各大权威社区的精选 Skills,并提供经过最佳实践打磨的全局 / 项目 / 目录 / 个人四层 CLAUDE.md 模板——每一段都可直接复制落地,附完整开发者使用说明。</p>
+          <div class="eyebrow">CC·FIELD MANUAL / EST. 2026</div>
+          <h1 class="hero-slogan-en">ARM YOUR<br>AGENT<span class="cursor" aria-hidden="true"></span></h1>
+          <p class="hero-slogan-zh">把 Claude Code <span class="hl">武装到牙齿</span>。</p>
+          <p class="hero-lede">精选 Skills × 四层 CLAUDE.md 记忆模板 × 权威社区资源。每一件装备都注明来源、给出安装命令、附上开口就能用的调用示例——复制,粘贴,开工。</p>
           <div class="hero-stats">
-            <div class="stat"><b>{officialCount}</b>官方 Skills</div>
+            <div class="stat"><b>{skills.length}</b>收录 Skills</div>
+            <div class="stat"><b>{officialCount}</b>官方出品</div>
             <div class="stat"><b>{resources.length}</b>权威资源库</div>
             <div class="stat"><b>4</b>层记忆模板</div>
-            <div class="stat"><b>100%</b>可复制落地</div>
           </div>
         </div>
         <div class="reveal">
-          <MemoryTree />
+          <Term title="claude — 装配序列" aria-label="装配序列演示" codeId="arming-seq"><span class="typed-line" data-type="$ claude --arm" data-cmd></span><span class="typed-line t-c" data-type={`skills    · 已装载 ${skills.length} 件(官方 ${officialCount} + 社区 ${skills.length - officialCount})`}></span><span class="typed-line t-c" data-type="memory    · CLAUDE.md × 4 层已注入"></span><span class="typed-line t-c" data-type="resources · 12+ 个权威弹药库在线"></span><span class="typed-line"><span class="t-g" data-type="ready. 开工。" data-final></span><span class="typed-cursor caret" aria-hidden="true"></span></span></Term>
         </div>
       </div>
     </div>
   </div>
 
+  <script>
+    // 装配序列打字动画:一次性,prefers-reduced-motion 时直接呈现终稿
+    const lines = [...document.querySelectorAll<HTMLElement>('[data-type]')];
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduce) {
+      lines.forEach(el => { el.textContent = el.dataset.type!; });
+    } else {
+      (async () => {
+        for (const el of lines) {
+          const text = el.dataset.type!;
+          const perChar = 'cmd' in el.dataset ? 55 : 14;
+          for (let i = 1; i <= text.length; i++) {
+            el.textContent = text.slice(0, i);
+            await new Promise(r => setTimeout(r, perChar));
+          }
+          await new Promise(r => setTimeout(r, 'cmd' in el.dataset ? 300 : 90));
+        }
+      })();
+    }
+  </script>
+
   <!-- 快速开始 -->
   <section class="ch" id="start">
     <div class="wrap">
       <ChapterHead
-        tag="第 01 章 / QUICKSTART"
+        tag="$ claude --setup · QUICKSTART"
         title="三条命令,完成全套装配"
         lede="从零开始到「官方技能全就位 + 项目记忆初始化」,总共只需要几分钟。每个代码块右上角都可以一键复制。"
       />
@@ -81,7 +102,7 @@ const step2Copy = `/plugin marketplace add anthropics/skills
   <section class="ch" id="featured" style="border-bottom:none">
     <div class="wrap">
       <ChapterHead
-        tag="精选 / FEATURED"
+        tag="$ ls featured/ · 精选"
         title="先从这几件装备开始"
         lede="技能库与资源库的入口精选;完整收录请进各自页面。"
       />

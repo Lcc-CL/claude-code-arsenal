@@ -7,6 +7,8 @@ import FilterBar from '../components/FilterBar.astro';
 import SkillCard from '../components/SkillCard.astro';
 
 const skills = (await getCollection('skills')).map(e => e.data).sort((a, b) => a.order - b.order);
+const officialCount = skills.filter(s => s.origin === 'official').length;
+const communityCount = skills.length - officialCount;
 ---
 
 <Site
@@ -16,9 +18,9 @@ const skills = (await getCollection('skills')).map(e => e.data).sort((a, b) => a
   <section class="ch" id="official" style="border-bottom:none">
     <div class="wrap">
       <ChapterHead
-        tag="第 02 章 / OFFICIAL SKILLS"
-        title="Anthropic 官方仓库 · 17 个 Skills 全收录"
-        ledeHtml='全部来自 <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">github.com/anthropics/skills</a> 官方公开仓库。每个 Skill 是一个含 SKILL.md 的自包含文件夹,Claude 会在任务匹配时自动加载——你也可以在对话里直接点名调用。'
+        tag="$ ls ~/.claude/skills/ · SKILLS"
+        title={`官方 ${officialCount} 全收录 · 社区精选 ${communityCount} 持续增补`}
+        ledeHtml='官方条目全部来自 <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">github.com/anthropics/skills</a> 公开仓库,社区条目经权威榜单核实后收录。每个 Skill 是一个含 SKILL.md 的自包含文件夹,Claude 会在任务匹配时自动加载——你也可以在对话里直接点名调用。'
       />
       <FilterBar cards={skills.map(s => ({ category: s.category, origin: s.origin }))} />
       <div class="cards reveal">
