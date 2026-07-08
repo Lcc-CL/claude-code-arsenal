@@ -4,6 +4,8 @@ origin: official
 category: team
 summary: 结构化文档共创三阶段流程:收集素材 → 打磨成稿 → 读者视角测试,适合 PRD、设计文档等重要长文。
 usageExample: 用 doc-coauthoring 和我一起写这份 PRD
+summaryEn: "A three-stage co-writing flow for serious documents: gather material → polish the draft → test from the reader's perspective. Built for PRDs and design docs."
+usageExampleEn: "Use doc-coauthoring to write this PRD with me"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

@@ -1,6 +1,7 @@
 name: anthropics/skills
 url: https://github.com/anthropics/skills
 desc: 官方示例仓库兼插件市场,本手册第 02 章的源头;含 template 目录可作自建 Skill 起点。
+descEn: "The official examples repo and plugin marketplace — the source of this manual's skills chapter; includes a template directory to start your own skills."
 badge: 官方
 stars: 158k
 installCommand: /plugin marketplace add anthropics/skills

@@ -4,6 +4,8 @@ origin: official
 category: art
 summary: 以明确的设计哲学产出 PNG / PDF 视觉稿:海报、封面、卡片等平面产物,而非网页。
 usageExample: 用 canvas-design 出三版发布会海报方向
+summaryEn: "Produce PNG / PDF visuals with an explicit design philosophy: posters, covers, cards — graphic artifacts rather than web pages."
+usageExampleEn: "Use canvas-design to explore three poster directions for the launch"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

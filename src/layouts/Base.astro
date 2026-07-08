@@ -8,15 +8,19 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  lang?: string;
+  altHref?: string;
+  altLang?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, lang = 'zh-CN', altHref, altLang } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
+const altUrl = altHref && Astro.site ? new URL(altHref, Astro.site).href : undefined;
 ---
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang={lang}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +28,7 @@ const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
   <meta name="description" content={description}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   {canonical && <link rel="canonical" href={canonical}>}
+  {altUrl && altLang && <link rel="alternate" hreflang={altLang} href={altUrl}>}
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
   <meta property="og:type" content="website">

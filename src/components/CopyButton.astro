@@ -7,9 +7,10 @@ export interface Props {
   target?: string;
   variant?: 'dark' | 'light';
   label?: string;
+  doneLabel?: string;
 }
 
-const { text, target, variant = 'dark', label = '复制' } = Astro.props;
+const { text, target, variant = 'dark', label = '复制', doneLabel } = Astro.props;
 const classes = ['copy', variant === 'light' ? 'light' : ''].filter(Boolean).join(' ');
 ---
 
@@ -17,12 +18,13 @@ const classes = ['copy', variant === 'light' ? 'light' : ''].filter(Boolean).joi
   class={classes}
   data-copy={text ?? undefined}
   data-copy-target={target ?? undefined}
+  data-done={doneLabel ?? undefined}
 >{label}</button>
 
 <script>
   function flash(btn: HTMLButtonElement) {
     const old = btn.textContent!;
-    btn.textContent = '已复制 ✓';
+    btn.textContent = btn.dataset.done ?? '已复制 ✓';
     btn.classList.add('done');
     setTimeout(() => {
       btn.textContent = old;

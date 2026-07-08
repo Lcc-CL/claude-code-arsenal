@@ -4,6 +4,8 @@ origin: official
 category: doc
 summary: 生成与编辑 PowerPoint 演示文稿:版式、模板、图表与批量自动化产出幻灯片,拿来做周报/提案效率极高。
 usageExample: 按这份大纲用 pptx skill 生成 10 页路演稿
+summaryEn: "Generate and edit PowerPoint decks: layouts, templates, charts, and batch automation — highly efficient for weekly reports and proposals."
+usageExampleEn: "Use the pptx skill to build a 10-slide pitch from this outline"
 install:
   method: plugin
   command: /plugin install document-skills@anthropic-agent-skills

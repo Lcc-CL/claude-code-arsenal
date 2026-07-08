@@ -1,26 +1,48 @@
 ---
-// CommandPalette · ⌘K 终端风命令面板:全站条目检索(skills/templates/guides/resources/页面)
+// CommandPalette · ⌘K 终端风命令面板:全站条目检索 + `:` 命令模式(双语)
 import { getCollection } from 'astro:content';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+const p = (path: string) => (en ? `/en${path === '/' ? '' : path}` : path) || '/en';
 
 const skills = await getCollection('skills');
 const resources = await getCollection('resources');
-const templates = await getCollection('templates');
-const guides = await getCollection('guides');
+const templates = (await getCollection('templates')).filter(t => t.id.startsWith('en/') === en);
+const guides = (await getCollection('guides')).filter(g => g.id.startsWith('en/') === en);
 
 type Item = { t: string; name: string; desc: string; url: string };
 
+const pages: Item[] = en
+  ? [
+      { t: 'page', name: 'Home', desc: 'ARM YOUR AGENT — the armory overview', url: '/en' },
+      { t: 'page', name: 'Skills', desc: 'Official + community skills, filterable', url: '/en/skills' },
+      { t: 'page', name: 'CLAUDE.md templates', desc: 'Four memory layers, copy-ready', url: '/en/claude-md' },
+      { t: 'page', name: 'Guides', desc: 'Writing rules / anatomy / troubleshooting / glossary', url: '/en/guide' },
+      { t: 'page', name: 'Resources', desc: 'Authoritative community resources', url: '/en/resources' },
+      { t: 'page', name: 'Changelog', desc: 'What changed on this site', url: '/changelog' },
+      { t: 'page', name: 'About', desc: 'Mission / sources / contributing', url: '/en/about' },
+    ]
+  : [
+      { t: 'page', name: '首页', desc: 'ARM YOUR AGENT — 装备总览', url: '/' },
+      { t: 'page', name: '技能库', desc: '官方 + 社区 Skills,按类别与来源筛选', url: '/skills' },
+      { t: 'page', name: 'CLAUDE.md 模板', desc: '四层记忆模板,复制即用', url: '/claude-md' },
+      { t: 'page', name: '学习指南', desc: '守则 / 剖析 / 排障 / 术语表', url: '/guide' },
+      { t: 'page', name: '资源库', desc: '权威社区资源精选', url: '/resources' },
+      { t: 'page', name: '更新日志', desc: '本站收录与功能变更', url: '/changelog' },
+      { t: 'page', name: '关于本站', desc: '定位 / 来源 / 投稿', url: '/about' },
+    ];
+
 const items: Item[] = [
-  { t: 'page', name: '首页', desc: 'ARM YOUR AGENT — 装备总览', url: '/' },
-  { t: 'page', name: '技能库', desc: '官方 + 社区 Skills,按类别与来源筛选', url: '/skills' },
-  { t: 'page', name: 'CLAUDE.md 模板', desc: '四层记忆模板,复制即用', url: '/claude-md' },
-  { t: 'page', name: '学习指南', desc: '守则 / 剖析 / 排障 / 术语表', url: '/guide' },
-  { t: 'page', name: '资源库', desc: '权威社区资源精选', url: '/resources' },
-  { t: 'page', name: '更新日志', desc: '本站收录与功能变更', url: '/changelog' },
-  { t: 'page', name: '关于本站', desc: '定位 / 来源 / 投稿', url: '/about' },
-  ...skills.map(s => ({ t: 'skill', name: s.data.name, desc: s.data.summary, url: '/skills' })),
-  ...templates.map(t => ({ t: 'tpl', name: t.data.tabLabel, desc: t.data.title, url: '/claude-md' })),
-  ...guides.map(g => ({ t: 'guide', name: g.data.title, desc: g.data.description, url: `/guide/${g.id}` })),
-  ...resources.map(r => ({ t: 'res', name: r.data.name, desc: r.data.desc, url: '/resources' })),
+  ...pages,
+  ...skills.map(s => ({ t: 'skill', name: s.data.name, desc: en ? (s.data.summaryEn ?? s.data.summary) : s.data.summary, url: p('/skills') })),
+  ...templates.map(t => ({ t: 'tpl', name: t.data.tabLabel, desc: t.data.title, url: p('/claude-md') })),
+  ...guides.map(g => ({ t: 'guide', name: g.data.title, desc: g.data.description, url: en ? `/en/guide/${g.id.slice(3)}` : `/guide/${g.id}` })),
+  ...resources.map(r => ({ t: 'res', name: r.data.name, desc: en ? (r.data.descEn ?? r.data.desc) : r.data.desc, url: p('/resources') })),
 ];
 
 const kindClass: Record<string, string> = { skill: '', tpl: 't-tpl', guide: 't-tpl', res: 't-res', page: 't-page' };
@@ -28,10 +50,10 @@ const kindLabel: Record<string, string> = { skill: 'SKILL', tpl: 'CLAUDE.md', gu
 ---
 
 <div class="palette" id="palette" hidden>
-  <div class="palette-box" role="dialog" aria-modal="true" aria-label="全站搜索">
+  <div class="palette-box" role="dialog" aria-modal="true" aria-label={en ? 'Site search' : '全站搜索'}>
     <div class="palette-input-row">
       <span aria-hidden="true">$</span>
-      <input class="palette-input" type="text" placeholder="搜 skill / 模板 / 指南 / 资源 …" spellcheck="false" autocomplete="off">
+      <input class="palette-input" type="text" placeholder={en ? 'search skills / templates / guides / resources …' : '搜 skill / 模板 / 指南 / 资源 …'} spellcheck="false" autocomplete="off">
     </div>
     <div class="palette-list" role="listbox">
       {items.map(item => (
@@ -41,9 +63,11 @@ const kindLabel: Record<string, string> = { skill: 'SKILL', tpl: 'CLAUDE.md', gu
           <span class="desc">{item.desc}</span>
         </a>
       ))}
-      <div class="palette-empty" hidden>no matches found — 换个关键词试试</div>
+      <div class="palette-empty" hidden>{en ? 'no matches found — try another keyword' : 'no matches found — 换个关键词试试'}</div>
     </div>
-    <div class="palette-foot"><span>↑↓ 选择</span><span>↵ 前往</span><span>esc 关闭</span></div>
+    <div class="palette-foot">
+      <span>{en ? '↑↓ select' : '↑↓ 选择'}</span><span>{en ? '↵ go' : '↵ 前往'}</span><span>{en ? 'esc close' : 'esc 关闭'}</span><span>:dark :light {en ? ':zh' : ':en'}</span>
+    </div>
   </div>
 </div>
 
@@ -81,6 +105,31 @@ const kindLabel: Record<string, string> = { skill: 'SKILL', tpl: 'CLAUDE.md', gu
     mark();
   }
 
+  // `:` 命令模式:像 vim 一样直接执行
+  function runColonCmd(v: string): boolean {
+    const root = document.documentElement;
+    switch (v) {
+      case ':dark':
+        root.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        return true;
+      case ':light':
+        root.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        return true;
+      case ':en':
+        window.location.href = window.location.pathname.startsWith('/en') ? window.location.pathname : ('/en' + window.location.pathname).replace(/\/$/, '') || '/en';
+        return true;
+      case ':zh':
+        window.location.href = window.location.pathname.replace(/^\/en\/?/, '/') || '/';
+        return true;
+      case ':top':
+        window.scrollTo({ top: 0 });
+        return true;
+    }
+    return false;
+  }
+
   document.querySelectorAll('[data-palette-open]').forEach(b => b.addEventListener('click', open));
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -92,7 +141,11 @@ const kindLabel: Record<string, string> = { skill: 'SKILL', tpl: 'CLAUDE.md', gu
     if (e.key === 'Escape') close();
     else if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx + 1, visible.length - 1); mark(); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx - 1, 0); mark(); }
-    else if (e.key === 'Enter' && visible[idx]) { window.location.href = visible[idx].href; }
+    else if (e.key === 'Enter') {
+      const v = input.value.trim();
+      if (v.startsWith(':')) { if (runColonCmd(v)) close(); return; }
+      if (visible[idx]) window.location.href = visible[idx].href;
+    }
   });
   input.addEventListener('input', () => filter(input.value));
   palette.addEventListener('click', (e) => { if (e.target === palette) close(); });

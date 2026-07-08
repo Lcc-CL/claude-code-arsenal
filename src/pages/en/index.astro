@@ -1,0 +1,100 @@
+---
+// /en · English home: plate + hero (interactive arming terminal) + quickstart + featured
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import Term from '../../components/Term.astro';
+import ArmingTerminal from '../../components/ArmingTerminal.astro';
+import SkillCard from '../../components/SkillCard.astro';
+import ResourceRow from '../../components/ResourceRow.astro';
+import ChapterHead from '../../components/ChapterHead.astro';
+
+const skills = (await getCollection('skills')).map(e => e.data);
+const officialCount = skills.filter(s => s.origin === 'official').length;
+const resources = (await getCollection('resources')).map(e => e.data).sort((a, b) => a.order - b.order);
+const featuredSkills = skills.filter(s => s.featured).sort((a, b) => a.order - b.order).slice(0, 3);
+const featuredResources = resources.slice(0, 3);
+
+const nl = '\n';
+
+const step2Copy = `/plugin marketplace add anthropics/skills
+/plugin install document-skills@anthropic-agent-skills
+/plugin install example-skills@anthropic-agent-skills`;
+---
+
+<Site
+  locale="en"
+  title="Claude Code Arsenal — curated Skills & CLAUDE.md field manual"
+  description="Curated Anthropic Skills, authoritative community resources, and four-layer CLAUDE.md memory templates — every entry copy-ready, with developer instructions."
+>
+  <div class="hero-v2">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">CC·FIELD MANUAL / EST. 2026</div>
+          <h1 class="hero-slogan-en"><span class="ghost" aria-hidden="true">ARM YOUR<br>AGENT</span>ARM YOUR<br>AGENT<span class="cursor" aria-hidden="true"></span></h1>
+          <p class="hero-slogan-zh">Equip Claude Code <span class="hl">to the teeth</span>.</p>
+          <p class="hero-lede">Curated Skills × four-layer CLAUDE.md memory templates × authoritative community resources. Every piece of kit names its source, ships its install command, and comes with a prompt you can say out loud — copy, paste, ship.</p>
+          <div class="hero-stats">
+            <div class="stat"><b>{skills.length}</b>skills curated</div>
+            <div class="stat"><b>{officialCount}</b>official</div>
+            <div class="stat"><b>{resources.length}</b>resource hubs</div>
+            <div class="stat"><b>4</b>memory layers</div>
+          </div>
+        </div>
+        <div class="reveal">
+          <ArmingTerminal
+            locale="en"
+            skills={skills.map(s => ({ n: s.name, c: s.install.command, o: s.origin }))}
+            resources={resources.map(r => r.name)}
+            officialCount={officialCount}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="ch" id="start">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ claude --setup · QUICKSTART"
+        title="Three commands to full kit"
+        lede="From zero to “official skills armed + project memory initialized” in a few minutes. Every code block has one-click copy in its corner."
+      />
+      <div class="steps reveal">
+        <div class="step">
+          <div class="step-no">STEP 01 — Install Claude Code</div>
+          <Term title="terminal" copyLabel="copy" copyDoneLabel="copied ✓" copyText="npm install -g @anthropic-ai/claude-code"><span class="t-g">$</span> npm install -g @anthropic-ai/claude-code{nl}<span class="t-g">$</span> cd your-project <span class="t-g">&&</span> claude</Term>
+          <p>Skip if already installed. First run walks you through login; see the official docs linked in the footer for system requirements.</p>
+        </div>
+        <div class="step">
+          <div class="step-no">STEP 02 — Add the official marketplace</div>
+          <Term title="claude · run in session" copyLabel="copy" copyDoneLabel="copied ✓" copyText={step2Copy}><span class="t-g">&gt;</span> /plugin marketplace add <span class="t-y">anthropics/skills</span>{nl}<span class="t-g">&gt;</span> /plugin install document-skills@anthropic-agent-skills{nl}<span class="t-g">&gt;</span> /plugin install example-skills@anthropic-agent-skills</Term>
+          <p>Installs all 17 official skills in one go. Then just name them in conversation — e.g. “use the pdf skill to extract this form's fields”.</p>
+        </div>
+        <div class="step">
+          <div class="step-no">STEP 03 — Initialize memory</div>
+          <Term title="claude · run in session" copyLabel="copy" copyDoneLabel="copied ✓" copyText="/init"><span class="t-g">&gt;</span> /init   <span class="t-c"># draft a project CLAUDE.md</span>{nl}<span class="t-g">&gt;</span> /memory <span class="t-c"># view / edit every layer anytime</span></Term>
+          <p>After drafting, prune it against the templates: delete what Claude can infer, keep only high-signal rules. Put the global file at <span class="mono" style="font-size:12px">~/.claude/CLAUDE.md</span> yourself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="featured" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ ls featured/ · FEATURED"
+        title="Start with these"
+        lede="Hand-picked entries from the skills library and the resource shelf; the full catalog lives on their own pages."
+      />
+      <div class="cards reveal">
+        {featuredSkills.map(skill => <SkillCard skill={skill} locale="en" />)}
+      </div>
+      <p class="bundle-note"><a href="/en/skills">Browse all {skills.length} skills →</a></p>
+      <div class="res-list reveal" style="margin-top:26px">
+        {featuredResources.map(resource => <ResourceRow resource={resource} locale="en" />)}
+      </div>
+      <p class="bundle-note"><a href="/en/resources">Browse all {resources.length} resources →</a></p>
+    </div>
+  </section>
+</Site>

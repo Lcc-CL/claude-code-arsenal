@@ -4,6 +4,8 @@ origin: community
 category: team
 summary: superpowers 的苏格拉底式设计打磨:动手前先追问需求与边界,把想法磨成可执行方案。
 usageExample: 用 brainstorming 和我打磨这个功能的设计
+summaryEn: "superpowers' Socratic design refinement: interrogate requirements and edge cases before coding, and grind ideas into executable plans."
+usageExampleEn: "Use brainstorming to refine this feature design with me"
 install:
   method: plugin
   command: /plugin install superpowers@claude-plugins-official

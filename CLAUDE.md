@@ -15,6 +15,7 @@
 - src/styles/global.css   全站唯一样式文件;:root 浅色 tokens + [data-theme="dark"] 暗色 tokens
 - src/components/         Plate / SiteNav / Term / CopyButton / MemoryTree / CommandPalette ...
 - src/content/            skills(yaml)/ resources(yaml)/ templates(md)/ guides(mdx)
+- 双语:templates/guides 英文版放各自 en/ 子目录;skills/resources 用 *En 字段;/en 路由镜像页面;chrome 组件走 locale prop
 - src/pages/              路由页,只做组装,不写业务文案(章节头 tag 用 shell 命令风格)
 - scripts/                sync-stars.mjs 等自动化脚本
 - reference/              v1 基准存档,只读

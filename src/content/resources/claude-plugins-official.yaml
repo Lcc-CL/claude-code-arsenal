@@ -1,6 +1,7 @@
 name: claude-plugins-official
 url: https://github.com/anthropics/claude-plugins-official
 desc: Anthropic 官方维护的高质量插件目录;会话内输入 /plugin 即可浏览安装,插件可捆绑 Skills、Hooks、子代理与 MCP。
+descEn: "Anthropic's curated directory of high-quality plugins; type /plugin in a session to browse and install. Plugins can bundle skills, hooks, subagents, and MCP."
 badge: 官方
 stars: 31.5k
 installCommand: /plugin

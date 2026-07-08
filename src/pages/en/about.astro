@@ -1,0 +1,66 @@
+---
+// /en/about · mission + sources + contributing
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../../components/ChapterHead.astro';
+
+const sources = [
+  { name: 'Claude Code docs · Skills', u: 'code.claude.com/docs/en/skills', href: 'https://code.claude.com/docs/en/skills' },
+  { name: 'Claude Code docs · Memory / CLAUDE.md', u: 'code.claude.com/docs/en/memory', href: 'https://code.claude.com/docs/en/memory' },
+  { name: 'Claude Code best practices', u: 'code.claude.com/docs/en/best-practices', href: 'https://code.claude.com/docs/en/best-practices' },
+  { name: 'anthropics/skills official repo', u: 'github.com/anthropics/skills', href: 'https://github.com/anthropics/skills' },
+  { name: 'Official plugin directory', u: 'github.com/anthropics/claude-plugins-official', href: 'https://github.com/anthropics/claude-plugins-official' },
+  { name: 'Agent Skills overview (platform docs)', u: 'platform.claude.com/docs', href: 'https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview' },
+  { name: 'Anthropic engineering · Agent Skills', u: 'anthropic.com/engineering', href: 'https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills' },
+  { name: 'Agent Skills open standard', u: 'agentskills.io', href: 'https://agentskills.io' },
+  { name: 'skills.sh ecosystem (Vercel)', u: 'skills.sh', href: 'https://skills.sh' },
+  { name: 'What are skills? (support center)', u: 'support.claude.com', href: 'https://support.claude.com/en/articles/12512176-what-are-skills' },
+  { name: 'awesome-agent-skills (Chinese ultimate guide)', u: 'github.com/libukai/awesome-agent-skills', href: 'https://github.com/libukai/awesome-agent-skills' },
+  { name: 'claude-code-skills-zh (Chinese picks)', u: 'github.com/laolaoshiren', href: 'https://github.com/laolaoshiren/claude-code-skills-zh' },
+];
+---
+
+<Site
+  locale="en"
+  title="About — Claude Code Arsenal"
+  description="What Claude Code Arsenal is, the authoritative sources behind it, and how to contribute: one yaml file per new entry."
+>
+  <section class="ch" id="about">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ whoami · ABOUT"
+        title="A field manual for Claude Code developers"
+        lede="This manual gathers curated skills from Anthropic's official repos and the community's authoritative hubs, plus four-layer CLAUDE.md memory templates refined against best practice — every block copy-ready, with full developer instructions."
+      />
+      <p class="reveal" style="color:var(--muted);max-width:64ch">The author's own study notes, in service of Claude Code developers everywhere: find a skill or template → copy the install command or full text → back to the terminal. Fully static, no backend, no accounts; content is data-driven and star counts refresh weekly via GitHub Actions.</p>
+      <p class="reveal fig-note" style="margin-top:14px">AUTHOR — Cc · find me on X: <a href="https://x.com/Lcc01_cc" target="_blank" rel="noopener">@Lcc01_cc</a> — leads and corrections welcome.</p>
+    </div>
+  </section>
+
+  <section class="ch" id="sources">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ cat sources.list · SOURCES"
+        title="Authoritative sources"
+        lede="All factual content follows these official docs and public repos; the ecosystem moves fast — trust the live versions behind the links."
+      />
+      <div class="src-grid reveal">
+        {sources.map(s => (
+          <a href={s.href} target="_blank" rel="noopener">{s.name}<span class="u">{s.u}</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="contribute" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ git commit · CONTRIBUTE"
+        title="One new entry = one yaml file"
+        lede="Everything on this site comes from content collections: to add a skill or resource, open a PR with one small file — pass the schema check and it ships."
+      />
+      <div class="reveal">
+        <p style="color:var(--muted);max-width:64ch">Skills go in <span class="mono" style="font-size:12.5px">src/content/skills/&lt;slug&gt;.yaml</span> (name / origin / category / summary / usageExample / install / sourceUrl), resources in <span class="mono" style="font-size:12.5px">src/content/resources/&lt;slug&gt;.yaml</span>. Include a source link; run third-party skills through a security audit first.</p>
+      </div>
+    </div>
+  </section>
+</Site>

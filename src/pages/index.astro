@@ -3,6 +3,7 @@
 import { getCollection } from 'astro:content';
 import Site from '../layouts/Site.astro';
 import Term from '../components/Term.astro';
+import ArmingTerminal from '../components/ArmingTerminal.astro';
 import SkillCard from '../components/SkillCard.astro';
 import ResourceRow from '../components/ResourceRow.astro';
 import ChapterHead from '../components/ChapterHead.astro';
@@ -31,7 +32,7 @@ const step2Copy = `/plugin marketplace add anthropics/skills
       <div class="hero-grid">
         <div class="reveal">
           <div class="eyebrow">CC·FIELD MANUAL / EST. 2026</div>
-          <h1 class="hero-slogan-en">ARM YOUR<br>AGENT<span class="cursor" aria-hidden="true"></span></h1>
+          <h1 class="hero-slogan-en"><span class="ghost" aria-hidden="true">ARM YOUR<br>AGENT</span>ARM YOUR<br>AGENT<span class="cursor" aria-hidden="true"></span></h1>
           <p class="hero-slogan-zh">把 Claude Code <span class="hl">武装到牙齿</span>。</p>
           <p class="hero-lede">精选 Skills × 四层 CLAUDE.md 记忆模板 × 权威社区资源。每一件装备都注明来源、给出安装命令、附上开口就能用的调用示例——复制,粘贴,开工。</p>
           <div class="hero-stats">
@@ -42,33 +43,15 @@ const step2Copy = `/plugin marketplace add anthropics/skills
           </div>
         </div>
         <div class="reveal">
-          <Term title="claude — 装配序列" aria-label="装配序列演示" codeId="arming-seq"><span class="typed-line" data-type="$ claude --arm" data-cmd></span><span class="typed-line t-c" data-type={`skills    · 已装载 ${skills.length} 件(官方 ${officialCount} + 社区 ${skills.length - officialCount})`}></span><span class="typed-line t-c" data-type="memory    · CLAUDE.md × 4 层已注入"></span><span class="typed-line t-c" data-type="resources · 12+ 个权威弹药库在线"></span><span class="typed-line"><span class="t-g" data-type="ready. 开工。" data-final></span><span class="typed-cursor caret" aria-hidden="true"></span></span></Term>
+          <ArmingTerminal
+            skills={skills.map(s => ({ n: s.name, c: s.install.command, o: s.origin }))}
+            resources={resources.map(r => r.name)}
+            officialCount={officialCount}
+          />
         </div>
       </div>
     </div>
   </div>
-
-  <script>
-    // 装配序列打字动画:一次性,prefers-reduced-motion 时直接呈现终稿
-    const lines = [...document.querySelectorAll<HTMLElement>('[data-type]')];
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-    if (reduce) {
-      lines.forEach(el => { el.textContent = el.dataset.type!; });
-    } else {
-      (async () => {
-        for (const el of lines) {
-          const text = el.dataset.type!;
-          const perChar = 'cmd' in el.dataset ? 55 : 14;
-          for (let i = 1; i <= text.length; i++) {
-            el.textContent = text.slice(0, i);
-            await new Promise(r => setTimeout(r, perChar));
-          }
-          await new Promise(r => setTimeout(r, 'cmd' in el.dataset ? 300 : 90));
-        }
-      })();
-    }
-  </script>
 
   <!-- 快速开始 -->
   <section class="ch" id="start">

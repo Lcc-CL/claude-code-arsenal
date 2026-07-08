@@ -4,6 +4,8 @@ origin: official
 category: art
 summary: 制作符合 Slack 体积限制的动图表情/动画,团队摸鱼与庆祝上线的刚需。
 usageExample: 用 slack-gif-creator 做一个「部署成功」小动画
+summaryEn: "Make animated emoji and GIFs that fit Slack's size limits — essential kit for team fun and shipping celebrations."
+usageExampleEn: "Use slack-gif-creator to make a 'deploy succeeded' animation"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

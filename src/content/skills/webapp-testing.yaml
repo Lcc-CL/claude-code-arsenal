@@ -4,6 +4,8 @@ origin: official
 category: dev
 summary: 用 Playwright 测试本地 Web 应用:UI 验证、截图对照与调试,让 Claude 自己「打开浏览器看一眼」再改代码。
 usageExample: 用 webapp-testing 跑通登录流程并截图给我
+summaryEn: "Test local web apps with Playwright: UI verification, screenshot comparison, and debugging — let Claude open a browser and look before changing code."
+usageExampleEn: "Use webapp-testing to run the login flow and screenshot it for me"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

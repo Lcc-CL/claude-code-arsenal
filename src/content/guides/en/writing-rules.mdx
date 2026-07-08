@@ -1,0 +1,31 @@
+---
+title: CLAUDE.md Writing Rules
+description: "It gets injected into context wholesale, every session — every line competes for attention with the rules that actually matter. Official docs and community consensus agree: short, precise, only what Claude can't guess."
+order: 1
+updatedAt: 2026-07-08
+---
+import Highlight from '../../../components/Highlight.astro';
+import RuleColumns from '../../../components/RuleColumns.astro';
+
+export const good = [
+  { text: 'Keep it short: under 200 lines total, 80–120 for the distilled version', why: 'Over-long files are not executed line by line — they get averaged into mush' },
+  { text: 'Write commands fully and literally: build / test / lint / migrate, flags included', why: 'The single highest-value item — saves Claude three rounds of guessing' },
+  { text: "Only facts and no-go zones that can't be read from the code and are costly to guess wrong", why: "e.g. CI's Node version, untouchable migration files, signature-verification logic" },
+  { text: 'Use @ references instead of retelling: @README.md, @docs/architecture.md', why: 'Relative and absolute paths work; recursive imports up to 5 levels deep' },
+  { text: 'Layer things: behavior goes global, facts go per-project, local rules go in subdirectories', why: 'Lazy loading keeps irrelevant rules out of context entirely' },
+  { text: 'Hand hard constraints to Hooks (e.g. "lint must run before every commit")', why: "Hooks execute at lifecycle points — they don't depend on Claude's mood" },
+  { text: 'Run /memory regularly to review, prune, and de-conflict every layer', why: 'When two rules conflict, Claude may pick either one' },
+];
+
+export const bad = [
+  { text: 'Persona prompts: "You are a senior engineer, think step by step"', why: "Words that don't change concrete behavior are wasted instruction budget" },
+  { text: 'Things Claude can self-learn in one session (file naming patterns, dependency lists)', why: 'Auto memory (MEMORY.md) will remember those — writing them is duplication' },
+  { text: 'Multi-step procedures', why: 'Make them a Skill loaded on demand instead of carrying them every session' },
+  { text: 'Pasting whole architecture documents', why: 'One @ reference is enough; Claude reads it when needed' },
+  { text: 'Real keys, tokens, passwords — including in CLAUDE.local.md', why: 'Write where to get them, not the values; these files are not a vault' },
+  { text: 'Treating CLAUDE.md as an enforcement switch', why: 'It is context, not a barrier; for "block no matter what," use a PreToolUse hook' },
+];
+
+It gets injected into context wholesale, every session — <Highlight>every line competes for attention with the rules that actually matter</Highlight>. Official docs and community consensus agree: short, precise, only what Claude can't guess.
+
+<RuleColumns goodTitle="DO / worth writing" badTitle="DON'T / skip these" good={good} bad={bad} />

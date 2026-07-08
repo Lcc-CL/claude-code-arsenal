@@ -4,6 +4,8 @@ origin: community
 category: dev
 summary: superpowers 的 TDD 纪律:严格 RED→GREEN→REFACTOR 循环,附测试反模式清单。
 usageExample: 按 test-driven-development 先写测试再实现这个函数
+summaryEn: "superpowers' TDD discipline: a strict RED → GREEN → REFACTOR loop, with a reference list of testing anti-patterns."
+usageExampleEn: "Follow test-driven-development: write the test first, then implement this function"
 install:
   method: plugin
   command: /plugin install superpowers@claude-plugins-official

@@ -1,19 +1,25 @@
 ---
-// SkillCard · 技能卡(基准 .card;P2 前卡片名外链 sourceUrl)
+// SkillCard v3 · 技能卡:摘要 + 调用示例 + 安装命令一键复制 + 核实日期信任标(双语)
 import type { CollectionEntry } from 'astro:content';
+import CopyButton from './CopyButton.astro';
 
 export interface Props {
   skill: CollectionEntry<'skills'>['data'];
+  locale?: 'zh' | 'en';
 }
 
-const { skill } = Astro.props;
+const { skill, locale = 'zh' } = Astro.props;
+const en = locale === 'en';
 
-const catLabel: Record<string, string> = {
-  doc: '文档',
-  dev: '开发',
-  art: '创意',
-  team: '协作',
-};
+const catLabel: Record<string, string> = en
+  ? { doc: 'DOCS', dev: 'DEV', art: 'CREATIVE', team: 'TEAM' }
+  : { doc: '文档', dev: '开发', art: '创意', team: '协作' };
+
+const summary = en ? (skill.summaryEn ?? skill.summary) : skill.summary;
+const usage = en ? (skill.usageExampleEn ?? skill.usageExample) : skill.usageExample;
+const hint = en ? '› Try telling Claude' : '› 试试对 Claude 说';
+const host = new URL(skill.sourceUrl).host.replace('www.', '');
+const verified = skill.lastVerified.toISOString().slice(0, 10);
 ---
 
 <div class="card" data-cat={skill.category} data-origin={skill.origin}>
@@ -21,12 +27,19 @@ const catLabel: Record<string, string> = {
     <span class="card-name"><a href={skill.sourceUrl} target="_blank" rel="noopener">{skill.name}</a></span>
     <span class={`cat ${skill.category}`}>{catLabel[skill.category]}</span>
   </div>
-  <p class="card-desc">{skill.summary}</p>
-  <div class="card-use">{skill.usageExample}</div>
+  <p class="card-desc">{summary}</p>
+  <div class="card-use" data-hint={hint}>{usage}</div>
+  <div class="card-install">
+    <code>{skill.install.command}</code>
+    <CopyButton text={skill.install.command} variant="light" label={en ? 'copy' : '复制'} doneLabel={en ? 'copied ✓' : undefined} />
+  </div>
+  <div class="card-meta">
+    <span>{host}</span>
+    <span class="ok">✓ {verified}</span>
+  </div>
 </div>
 
 <style>
-  /* 卡片名链接沿用卡片墨色,不带下划线(基准卡片名为纯文本) */
   .card-name a { color: var(--ink); border-bottom: none; }
   .card-name a:hover { color: var(--blue); }
 </style>

@@ -6,7 +6,7 @@ import Site from '../../layouts/Site.astro';
 import ChapterHead from '../../components/ChapterHead.astro';
 
 export const getStaticPaths = (async () => {
-  const guides = await getCollection('guides');
+  const guides = (await getCollection('guides')).filter(g => !g.id.startsWith('en/'));
   return guides.map(g => ({ params: { slug: g.id }, props: { guide: g } }));
 }) satisfies GetStaticPaths;
 

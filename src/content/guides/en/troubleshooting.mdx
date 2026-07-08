@@ -1,0 +1,37 @@
+---
+title: Troubleshooting FAQ
+description: "Skill won't trigger, CLAUDE.md rules ignored, sessions getting dumber over time — how to diagnose and fix the five most common problems."
+order: 3
+updatedAt: 2026-07-08
+---
+import Faq from '../../../components/Faq.astro';
+import FigDivision from '../../../components/FigDivision.astro';
+
+export const faqs = [
+  {
+    q: "Skill won't trigger?",
+    a: 'Nine times out of ten the <code>description</code> is too abstract. Add the three essentials: what it does (list concrete capabilities), when to use it, and the words users might actually say (cover casual phrasing). Then verify by making a matching request.',
+  },
+  {
+    q: 'CLAUDE.md rules being ignored?',
+    a: 'Run <code>/memory</code> first: the rule may live in a subdirectory file that has not lazy-loaded yet. Then check for two rules contradicting each other (Claude may pick either). For hard constraints that still wobble, rewrite them as a <code>PreToolUse</code> hook.',
+  },
+  {
+    q: 'Sessions get dumber as they get longer?',
+    a: 'Performance drops as context fills up. Cut unrelated tasks apart with <code>/clear</code>; on long tasks run <code>/compact focus on the essentials</code> at ~70% full; persist conclusions to CLAUDE.md or let auto memory (MEMORY.md) take over — never rely on chat history.',
+  },
+  {
+    q: 'Is there a cost to installing many skills?',
+    a: 'Resident cost is tiny (~100 tokens of metadata each), but overlapping descriptions blur matching. Keep only the best one per niche, and let each skill do exactly one thing.',
+  },
+  {
+    q: 'Skill vs CLAUDE.md vs Hook vs MCP — who does what?',
+    a: 'Hard facts and rules → CLAUDE.md; multi-step "how-to" → Skill (loaded on demand); actions that must be enforced → Hook; connecting external data and systems → MCP, then use a Skill to teach Claude how to use those tools well.',
+  },
+];
+
+<Faq items={faqs} />
+
+## The division of labor, in one picture
+
+<FigDivision locale="en" />

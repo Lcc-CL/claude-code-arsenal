@@ -4,6 +4,8 @@ origin: official
 category: dev
 summary: 构建复杂前端 Artifacts:状态管理、路由、shadcn/ui 组件——超越单文件 HTML 的交互原型、数据看板与内部工具 MVP。
 usageExample: 用 web-artifacts-builder 搭一个可筛选的订单看板
+summaryEn: "Build complex frontend artifacts: state management, routing, shadcn/ui components — interactive prototypes, dashboards, and internal-tool MVPs beyond single-file HTML."
+usageExampleEn: "Use web-artifacts-builder to build a filterable order dashboard"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

@@ -1,0 +1,40 @@
+---
+title: Glossary
+description: "Quick reference for the concepts this manual uses most: Skills, the four memory layers, progressive disclosure, Hooks, subagents, and MCP — one sentence each."
+order: 4
+updatedAt: 2026-07-08
+---
+
+## Skills
+
+**Skill** — a self-contained folder that teaches Claude *how to do a class of task*, centered on a SKILL.md; loads automatically on task match, or can be invoked by name in conversation.
+
+**SKILL.md** — the skill's entry file. In frontmatter, `name` sets the command name and `description` decides when it triggers; the body holds steps and hard-won gotchas.
+
+**Progressive disclosure** — the loading strategy: ~100 tokens of metadata at startup, the body on task match, references / scripts / assets only when needed.
+
+**Marketplace** — a skill source added via `/plugin marketplace add` (like the official anthropics/skills); install from it with `/plugin install`.
+
+**Slash command** — a `/`-prefixed in-session command. Custom slash commands merged into Skills: `.claude/skills/deploy/SKILL.md` automatically becomes `/deploy`.
+
+## Memory
+
+**CLAUDE.md** — the memory file injected at the start of every session, in four layers: global (`~/.claude/CLAUDE.md`), project (`./CLAUDE.md`), directory (`src/CLAUDE.md`), personal (`CLAUDE.local.md`).
+
+**CLAUDE.local.md** — the personal layer at the repo root, gitignored; loads on startup but never ships with the repo.
+
+**Lazy loading** — how directory-level CLAUDE.md files load: injected only when Claude reads files in that directory, invisible to sibling directories.
+
+**@ references** — point at other files from CLAUDE.md (`@README.md`, `@docs/architecture.md`) instead of restating them; relative/absolute paths, recursive up to 5 levels.
+
+**/init · /memory · /clear · /compact** — the four memory commands: draft a project CLAUDE.md / inspect and edit all layers / cut off unrelated context / compress a long session to its essentials.
+
+## Extension mechanisms
+
+**Hook** — an action enforced at lifecycle points (like PreToolUse); hard constraints belong in hooks, not in prose.
+
+**Subagent** — an independent executor defined in `.claude/agents/<name>.md`; a `skills:` field in its frontmatter preloads skills for it.
+
+**Plugin** — a distribution unit installed via `/plugin`; can bundle Skills, Hooks, subagents, and MCP.
+
+**MCP** — Model Context Protocol, the standard for connecting external data and systems; wire tools in with MCP, then teach Claude to use them well with a Skill.

@@ -1,4 +1,5 @@
 name: K-Dense 科研 Skills
 desc: 148 个科学研究技能 + 100 余个数据库接入,覆盖生物、化学、医学与金融科研工作流,兼容 Claude Code / Cursor 等。
+descEn: "148 scientific-research skills plus 100+ database integrations covering biology, chemistry, medicine, and finance; works with Claude Code, Cursor, and more."
 badge: 垂直
 order: 11

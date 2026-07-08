@@ -4,6 +4,8 @@ origin: community
 category: dev
 summary: Vercel 出品的浏览器操控技能:Rust CLI + Playwright 守护进程,让 Claude 确定性地驱动任意网页。
 usageExample: 用 agent-browser 打开预览页,跑通表单提交流程
+summaryEn: "Vercel's browser-automation skill: a Rust CLI plus a Playwright daemon that gives Claude deterministic, reference-based control over any web page."
+usageExampleEn: "Use agent-browser to open the preview and run the form-submit flow"
 install:
   method: npx
   command: npx skills add vercel-labs/agent-browser/agent-browser

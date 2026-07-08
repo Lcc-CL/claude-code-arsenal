@@ -1,21 +1,20 @@
 ---
-// Plate · 手册铭牌
+// Plate · 手册铭牌(双语)
 export interface Props {
-  title: string;
-  code: string;
-  version: string;
+  locale?: 'zh' | 'en';
 }
 
-const { title, code, version } = Astro.props;
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
 ---
 
 <header class="plate">
   <div class="wrap">
     <div class="plate-in">
-      <div class="plate-cell"><b>{title}</b></div>
-      <div class="plate-cell hide-m">编号 {code}</div>
-      <div class="plate-cell hide-m">适用 {version}</div>
-      <div class="plate-cell grow"><span class="plate-stamp">持续修订</span></div>
+      <div class="plate-cell"><b>CC·FIELD MANUAL</b></div>
+      <div class="plate-cell hide-m">{en ? 'No. CCA-2026-07' : '编号 CCA-2026-07'}</div>
+      <div class="plate-cell hide-m">{en ? 'For Claude Code v2.x' : '适用 Claude Code v2.x'}</div>
+      <div class="plate-cell grow"><span class="plate-stamp">{en ? 'LIVING DOC' : '持续修订'}</span></div>
     </div>
   </div>
 </header>

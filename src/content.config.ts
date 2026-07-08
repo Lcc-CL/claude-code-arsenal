@@ -11,6 +11,9 @@ const skills = defineCollection({
     category: z.enum(['doc', 'dev', 'art', 'team']),
     summary: z.string(),
     usageExample: z.string(),
+    // 英文站字段(缺省回退中文)
+    summaryEn: z.string().optional(),
+    usageExampleEn: z.string().optional(),
     install: z.object({
       method: z.enum(['plugin', 'npx', 'manual']),
       command: z.string(),
@@ -31,6 +34,7 @@ const resources = defineCollection({
     name: z.string(),
     url: z.string().url().optional(),
     desc: z.string(),
+    descEn: z.string().optional(),
     badge: z.enum(['官方', '市场', '导航', '合辑', '中文', '垂直', '安全']),
     stars: z.string().optional(),
     installCommand: z.string().optional(),

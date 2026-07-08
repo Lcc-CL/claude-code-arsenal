@@ -1361,3 +1361,87 @@ details .a code {
 /* 主题切换不闪烁 */
 html { color-scheme: light; }
 :root[data-theme="dark"] { color-scheme: dark; }
+
+/* ═══════════════════════════════════════════════════════════
+   V3 · 艺术感/未来感优化 pass(每条锚定 token;无障碍优先)
+   ═══════════════════════════════════════════════════════════ */
+
+/* 磷光辉光:仅暗色主题、仅终端语义色(强度 .45 上限,保证可读性) */
+:root[data-theme="dark"] .term .t-g,
+:root[data-theme="dark"] .term .t-badge { text-shadow: 0 0 9px rgba(124, 227, 165, .45); }
+:root[data-theme="dark"] .term .t-y { text-shadow: 0 0 9px rgba(255, 216, 77, .4); }
+:root[data-theme="dark"] .term .t-b { text-shadow: 0 0 9px rgba(147, 178, 255, .4); }
+:root[data-theme="dark"] .caret,
+:root[data-theme="dark"] .typed-cursor { box-shadow: 0 0 10px rgba(124, 227, 165, .8); }
+
+/* 顶部氛围光:固定 radial,不动画 */
+:root[data-theme="dark"] body {
+  background-attachment: fixed, fixed, fixed;
+  background-image:
+    radial-gradient(1100px 420px at 68% -80px, rgba(124, 227, 165, .07), transparent 70%),
+    linear-gradient(to right, rgba(220, 231, 222, .035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(220, 231, 222, .035) 1px, transparent 1px);
+  background-size: auto, 36px 36px, 36px 36px;
+}
+
+/* 显示字重影:hero 大字的描边幽灵层 */
+.hero-slogan-en { position: relative; }
+.hero-slogan-en .ghost {
+  position: absolute; left: 5px; top: 5px; z-index: -1; user-select: none;
+  color: transparent; -webkit-text-stroke: 1.5px var(--line-strong);
+}
+
+/* 卡片 hover:蓝晕(dark 强化) */
+:root[data-theme="dark"] .card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue), 0 8px 30px -12px rgba(147, 178, 255, .25);
+}
+
+/* 阅读进度条:nav 底沿磷光带(信息型,reduced-motion 下保留) */
+.nav { --progress: 0%; }
+.nav::after {
+  content: ""; position: absolute; left: 0; bottom: -1px; height: 2px;
+  width: var(--progress);
+  background: linear-gradient(90deg, var(--term-green, #7CE3A5), var(--hl), var(--blue));
+  transition: width .1s linear;
+}
+@media (prefers-reduced-motion: reduce) { .nav::after { transition: none; } }
+
+/* SkillCard 升级:安装命令行 + 信任标 */
+.card-install {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+  border-top: 1px dashed var(--line); padding-top: 9px; margin-top: 2px;
+}
+.card-install code { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-install .copy { flex-shrink: 0; }
+.card-meta {
+  display: flex; justify-content: space-between; gap: 8px;
+  font-family: var(--mono); font-size: 9.5px; color: var(--faint); letter-spacing: .05em;
+}
+.card-meta .ok { color: var(--term-green, #2E6B45); }
+:root:not([data-theme="dark"]) .card-meta .ok { color: #2E6B45; }
+
+/* 筛选空态 */
+.cards-empty {
+  display: none; font-family: var(--mono); font-size: 12.5px; color: var(--faint);
+  border: 1px dashed var(--line-strong); border-radius: 10px; padding: 26px 20px; text-align: center;
+}
+.cards-empty.show { display: block; }
+
+/* card-use 提示词改为 data 驱动(双语) */
+.card-use::before { content: attr(data-hint); }
+
+/* REPL:可交互装配终端 */
+.repl-input-row { display: flex; align-items: center; }
+.repl-input {
+  flex: 1; background: transparent; border: none; outline: none; padding: 0;
+  font-family: var(--mono); font-size: 12.75px; color: var(--term-ink); caret-color: var(--term-green);
+}
+.repl-hint { color: var(--term-dim); }
+.term pre.repl-screen { max-height: 320px; overflow-y: auto; }
+
+/* 暗色滚动条(webkit) */
+:root[data-theme="dark"] ::-webkit-scrollbar { width: 10px; height: 10px; }
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 5px; }
+:root[data-theme="dark"] ::-webkit-scrollbar-track { background: transparent; }

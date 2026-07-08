@@ -4,6 +4,8 @@ origin: official
 category: dev
 summary: Anthropic 工程师迭代打磨的前端设计品味 Skill:专治「AI 味」同质化界面(千篇一律的字体、紫色渐变、圆角卡片),插件榜常年前列。
 usageExample: 应用 frontend-design skill 重做这个落地页
+summaryEn: "Anthropic engineers' distilled taste for frontend design — the antidote to same-y 'AI-flavored' interfaces (identical fonts, purple gradients, rounded cards). A perennial plugin-chart favorite."
+usageExampleEn: "Apply the frontend-design skill and redo this landing page"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

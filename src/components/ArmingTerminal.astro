@@ -1,0 +1,200 @@
+---
+// ArmingTerminal · 首页签名交互:装配序列打字动画 → 可交互 REPL(双语一套脚本)
+import Term from './Term.astro';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+  skills: { n: string; c: string; o: string }[];
+  resources: string[];
+  officialCount: number;
+}
+
+const { locale = 'zh', skills, resources, officialCount } = Astro.props;
+const en = locale === 'en';
+const communityCount = skills.length - officialCount;
+
+const lines = en
+  ? {
+      title: 'claude — arming sequence · interactive',
+      aria: 'Interactive arming terminal; type help for commands',
+      l1: `skills    · ${skills.length} loaded (${officialCount} official + ${communityCount} community)`,
+      l2: 'memory    · CLAUDE.md × 4 layers injected',
+      l3: `resources · ${resources.length} armories online`,
+      ready: 'ready. ship it.',
+      note: '↑ not a screenshot — click in and type ',
+    }
+  : {
+      title: 'claude — 装配序列 · 可交互',
+      aria: '可交互装配终端,输入 help 查看命令',
+      l1: `skills    · 已装载 ${skills.length} 件(官方 ${officialCount} + 社区 ${communityCount})`,
+      l2: 'memory    · CLAUDE.md × 4 层已注入',
+      l3: `resources · ${resources.length} 个权威弹药库在线`,
+      ready: 'ready. 开工。',
+      note: '↑ 这不是贴图——点进去输入 ',
+    };
+
+const replData = {
+  skills,
+  resources,
+  s: en
+    ? {
+        hint: "type 'help' — this terminal is alive.",
+        notFound: (c: string) => `command not found: ${c} — try 'help'`,
+        aria: 'terminal command input; type help for available commands',
+        whoami: 'guest — this manual is maintained by Cc (@Lcc01_cc)',
+        sudo: 'sudo: permission denied — Cc runs this armory',
+        themeDark: 'theme → dark (terminal)',
+        themeLight: 'theme → light (print)',
+        langTo: '/', copied: 'copied ✓  ',
+        installMiss: "install: skill not found — try 'ls'",
+        goMiss: 'go: unknown destination',
+        more: 'total → go ',
+        help: [
+          'available commands:',
+          '  ls [skills|resources]   list the armory',
+          '  install <skill>         copy its install command',
+          '  go <page>               skills|templates|guides|resources|about|changelog',
+          '  theme · lang · whoami · clear',
+        ],
+        goMap: { skills: '/en/skills', templates: '/en/claude-md', 'claude-md': '/en/claude-md', guides: '/en/guide', guide: '/en/guide', resources: '/en/resources', about: '/en/about', changelog: '/changelog', home: '/en', zh: '/', lang: '/' },
+      }
+    : {
+        hint: "type 'help' —— 这台终端是活的。",
+        notFound: (c: string) => `command not found: ${c} — 输入 help 看看有什么`,
+        aria: '终端命令输入,输入 help 查看可用命令',
+        whoami: 'guest — 本手册由 Cc(@Lcc01_cc)持续修订',
+        sudo: 'sudo: permission denied — 这里由 Cc 说了算',
+        themeDark: 'theme → dark(终端版)',
+        themeLight: 'theme → light(打印版)',
+        langTo: '/en', copied: 'copied ✓  ',
+        installMiss: "install: skill not found — 先 'ls' 看看",
+        goMiss: 'go: unknown destination',
+        more: 'total → go ',
+        help: [
+          'available commands:',
+          '  ls [skills|resources]   list the armory',
+          '  install <skill>         copy its install command',
+          '  go <page>               skills|templates|guides|resources|about|changelog',
+          '  theme · lang · whoami · clear',
+        ],
+        goMap: { skills: '/skills', templates: '/claude-md', 'claude-md': '/claude-md', guides: '/guide', guide: '/guide', resources: '/resources', about: '/about', changelog: '/changelog', home: '/', en: '/en', lang: '/en' },
+      },
+};
+// 函数不能 JSON 化:notFound 单独展开为模板
+const json = JSON.stringify({ ...replData, s: { ...replData.s, notFound: undefined } });
+---
+
+<div data-repl-root>
+  <Term title={lines.title} aria-label={lines.aria} codeId="arming-seq"><span class="typed-line" data-type="$ claude --arm" data-cmd></span><span class="typed-line t-c" data-type={lines.l1}></span><span class="typed-line t-c" data-type={lines.l2}></span><span class="typed-line t-c" data-type={lines.l3}></span><span class="typed-line"><span class="t-g" data-type={lines.ready} data-final></span></span></Term>
+  <p class="fig-note" style="margin-top:10px">{lines.note}<span class="mono">help</span>{en ? '.' : ' 试试。'}</p>
+</div>
+
+<script type="application/json" id="repl-data" set:html={json} />
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-repl-root]')!;
+  const lines = [...root.querySelectorAll<HTMLElement>('[data-type]')];
+  const screen = root.querySelector<HTMLElement>('pre')!;
+  const codeEl = root.querySelector<HTMLElement>('pre code')!;
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const DATA = JSON.parse(document.getElementById('repl-data')!.textContent!) as {
+    skills: { n: string; c: string; o: string }[];
+    resources: string[];
+    s: Record<string, any>;
+  };
+  const S = DATA.s;
+
+  function print(text: string, cls = 't-c') {
+    const span = document.createElement('span');
+    span.className = `typed-line ${cls}`;
+    span.textContent = text;
+    codeEl.insertBefore(span, promptRow);
+    screen.scrollTop = screen.scrollHeight;
+  }
+
+  const promptRow = document.createElement('span');
+  promptRow.className = 'typed-line repl-input-row';
+  promptRow.innerHTML = '<span class="t-g">$&nbsp;</span>';
+  const input = document.createElement('input');
+  input.className = 'repl-input';
+  input.setAttribute('aria-label', S.aria);
+  input.setAttribute('spellcheck', 'false');
+  input.setAttribute('autocomplete', 'off');
+  promptRow.appendChild(input);
+
+  const CMDS: Record<string, (arg: string) => void> = {
+    help() { (S.help as string[]).forEach(l => print(l)); },
+    ls(arg) {
+      if (arg === 'resources') {
+        DATA.resources.slice(0, 6).forEach(r => print('  ' + r));
+        print(`  … ${DATA.resources.length} ${S.more}resources`);
+      } else {
+        DATA.skills.slice(0, 8).forEach(s => print(`  ${s.n}${s.o === 'community' ? '  (community)' : ''}`));
+        print(`  … ${DATA.skills.length} ${S.more}skills`);
+      }
+    },
+    install(arg) {
+      const hit = DATA.skills.find(s => s.n === arg || s.n.startsWith(arg));
+      if (!hit || !arg) { print(S.installMiss, 'repl-hint'); return; }
+      navigator.clipboard?.writeText(hit.c).then(
+        () => print(S.copied + hit.c, 't-g'),
+        () => print(hit.c, 't-y'),
+      );
+    },
+    go(arg) {
+      const to = (S.goMap as Record<string, string>)[arg];
+      if (to) { print(`→ ${to}`); window.location.href = to; }
+      else print(`${S.goMiss}: ${arg || '<page>'}`, 'repl-hint');
+    },
+    theme() {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (dark) document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', dark ? 'light' : 'dark');
+      print(dark ? S.themeLight : S.themeDark);
+    },
+    lang() { print(`→ ${S.langTo}`); window.location.href = S.langTo; },
+    whoami() { print(S.whoami); },
+    clear() { codeEl.querySelectorAll('.typed-line:not(.repl-input-row)').forEach(el => el.remove()); },
+    sudo() { print(S.sudo); },
+  };
+
+  function exec(raw: string) {
+    const line = raw.trim();
+    print(`$ ${line}`, '');
+    if (!line) return;
+    const [cmd, ...rest] = line.split(/\s+/);
+    const fn = CMDS[cmd.toLowerCase()];
+    if (fn) fn(rest.join(' '));
+    else print(`command not found: ${cmd} — help`, 'repl-hint');
+  }
+
+  function armInteractive() {
+    screen.classList.add('repl-screen');
+    codeEl.appendChild(promptRow);
+    print(S.hint, 'repl-hint');
+    codeEl.setAttribute('aria-live', 'polite');
+    root.addEventListener('click', () => input.focus());
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { exec(input.value); input.value = ''; }
+    });
+  }
+
+  if (reduce) {
+    lines.forEach(el => { el.textContent = el.dataset.type!; });
+    armInteractive();
+  } else {
+    (async () => {
+      for (const el of lines) {
+        const text = el.dataset.type!;
+        const perChar = 'cmd' in el.dataset ? 55 : 14;
+        for (let i = 1; i <= text.length; i++) {
+          el.textContent = text.slice(0, i);
+          await new Promise(r => setTimeout(r, perChar));
+        }
+        await new Promise(r => setTimeout(r, 'cmd' in el.dataset ? 300 : 90));
+      }
+      armInteractive();
+    })();
+  }
+</script>

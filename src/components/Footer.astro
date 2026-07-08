@@ -1,5 +1,11 @@
 ---
-// Footer v2 · 品牌 + 作者署名 + slogan
+// Footer v2 · 品牌 + 作者署名 + slogan(双语)
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
 const year = new Date().getFullYear();
 ---
 
@@ -9,9 +15,15 @@ const year = new Date().getFullYear();
       <div class="footer-grid">
         <div>
           <div class="footer-brand">ARSENAL<span class="dot">_</span> · CC·FIELD MANUAL</div>
-          <div class="footer-meta" style="margin-top:6px">AUTHOR — Cc <a href="https://x.com/Lcc01_cc" target="_blank" rel="noopener">@Lcc01_cc</a> · © {year} · <a href="/changelog">更新日志</a> · 为 Claude Code 开发者整理</div>
+          <div class="footer-meta" style="margin-top:6px">
+            AUTHOR — Cc <a href="https://x.com/Lcc01_cc" target="_blank" rel="noopener">@Lcc01_cc</a> · © {year} ·
+            <a href="/changelog">{en ? 'Changelog' : '更新日志'}</a> ·
+            {en ? 'curated for Claude Code developers' : '为 Claude Code 开发者整理'}
+          </div>
         </div>
-        <div class="footer-slogan">纸上得来终觉浅 · <b>复制,粘贴,开工。</b></div>
+        <div class="footer-slogan">
+          {en ? <>Reading is cheap · <b>Copy, paste, ship.</b></> : <>纸上得来终觉浅 · <b>复制,粘贴,开工。</b></>}
+        </div>
       </div>
     </div>
   </div>

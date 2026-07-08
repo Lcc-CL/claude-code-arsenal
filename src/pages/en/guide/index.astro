@@ -1,0 +1,45 @@
+---
+// /en/guide · guides index
+import { getCollection } from 'astro:content';
+import Site from '../../../layouts/Site.astro';
+import ChapterHead from '../../../components/ChapterHead.astro';
+
+const guides = (await getCollection('guides'))
+  .filter(g => g.id.startsWith('en/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+---
+
+<Site
+  locale="en"
+  title="Guides — Claude Code Arsenal"
+  description="CLAUDE.md writing rules, SKILL.md anatomy, troubleshooting, and a glossary — the four essential reads for using skills and memory well."
+>
+  <section class="ch" id="guides" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ man arsenal · GUIDES"
+        title="Four essential reads"
+        lede="Writing rules, field-by-field anatomy, troubleshooting, and a glossary — all distilled from official docs and community best practice."
+      />
+      <div class="cards reveal">
+        {guides.map(g => (
+          <div class="card">
+            <div class="card-top">
+              <span class="card-name"><a href={`/en/guide/${g.id.slice(3)}`}>{g.data.title}</a></span>
+            </div>
+            <p class="card-desc">{g.data.description}</p>
+            <div class="guide-card-meta">GUIDE 0{g.data.order} · updated {fmt(g.data.updatedAt)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Site>
+
+<style>
+  .card-name a { color: var(--ink); border-bottom: none; }
+  .card-name a:hover { color: var(--blue); }
+</style>

@@ -4,6 +4,8 @@ origin: official
 category: dev
 summary: 创建 Skill 的官方脚手架:引导你设计、生成并迭代自己的 SKILL.md。通常一次会话(15–30 分钟)即可产出可用 Skill。
 usageExample: 用 skill-creator 把我们的代码评审清单做成 Skill
+summaryEn: "The official scaffold for creating skills: guides you to design, generate, and iterate your own SKILL.md. Usually one session (15–30 min) to a working skill."
+usageExampleEn: "Use skill-creator to turn our code-review checklist into a skill"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

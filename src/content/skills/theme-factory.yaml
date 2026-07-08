@@ -4,6 +4,8 @@ origin: official
 category: art
 summary: 为任意 Artifact 套用成套主题:配色、字体与组件风格一次到位,适合批量保持视觉一致。
 usageExample: 用 theme-factory 给这个报告套一套深色学术主题
+summaryEn: "Apply cohesive themes to any artifact: palette, type, and component styling in one pass — ideal for keeping batches visually consistent."
+usageExampleEn: "Use theme-factory to give this report a dark academic theme"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

@@ -4,7 +4,9 @@ import { getCollection } from 'astro:content';
 import Site from '../../layouts/Site.astro';
 import ChapterHead from '../../components/ChapterHead.astro';
 
-const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const guides = (await getCollection('guides'))
+  .filter(g => !g.id.startsWith('en/'))
+  .sort((a, b) => a.data.order - b.data.order);
 
 const fmt = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

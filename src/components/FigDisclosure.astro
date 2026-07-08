@@ -1,40 +1,56 @@
 ---
-// FigDisclosure · 配图:Skill 三级渐进披露(inline SVG,取色自 tokens,双主题自适应)
+// FigDisclosure · 配图:Skill 三级渐进披露(inline SVG,取色自 tokens,双主题自适应,双语)
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+
+const T = en
+  ? {
+      title: 'Progressive disclosure: metadata at startup, body on task match, resources on demand',
+      l1: 'LEVEL 1 · ON STARTUP', l1b: 'name + description', l1c: '≈ 100 tokens · resident',
+      l2: 'LEVEL 2 · ON TASK MATCH', l2a: 'SKILL.md body', l2b: 'steps · rules · gotchas', l2c: 'injected on demand',
+      l3: 'LEVEL 3 · WHEN USED', l3b: 'docs · scripts · assets/', l3c: 'Claude reads them itself',
+      note: '▁ bars = relative context cost: with 25 skills installed, only level 1 stays resident.',
+    }
+  : {
+      title: 'Skill 三级渐进披露:启动只读元数据,任务匹配加载正文,资源按需再读',
+      l1: 'LEVEL 1 · 启动即读', l1b: 'name + description', l1c: '≈ 100 tokens · 常驻',
+      l2: 'LEVEL 2 · 任务匹配才加载', l2a: 'SKILL.md 正文', l2b: '步骤 · 守则 · Gotchas', l2c: '按需注入上下文',
+      l3: 'LEVEL 3 · 用到才读', l3b: '资料 · 脚本 · assets/', l3c: 'Claude 自己按需去读',
+      note: '▁ 色条 = 占用上下文的相对成本:装满 25 个 Skill,常驻的也只有第一级。',
+    };
 ---
 
 <figure class="fig">
   <svg viewBox="0 0 760 210" role="img" aria-labelledby="fig-disclosure-title" style="width:100%;height:auto;display:block">
-    <title id="fig-disclosure-title">Skill 三级渐进披露:启动只读元数据,任务匹配加载正文,资源按需再读</title>
+    <title id="fig-disclosure-title">{T.title}</title>
     <g style="font-family:var(--mono);font-size:11px">
-      <!-- 第一级 -->
       <rect x="8" y="38" width="220" height="120" rx="10" fill="var(--panel)" stroke="var(--line-strong)"/>
-      <text x="24" y="28" fill="var(--faint)" style="letter-spacing:.14em;font-size:10px">LEVEL 1 · 启动即读</text>
+      <text x="24" y="28" fill="var(--faint)" style="letter-spacing:.14em;font-size:10px">{T.l1}</text>
       <text x="24" y="66" fill="var(--ink)" font-weight="700" style="font-size:13px">metadata</text>
-      <text x="24" y="88" fill="var(--muted)">name + description</text>
-      <text x="24" y="120" fill="#7CE3A5" style="font-size:10.5px">≈ 100 tokens · 常驻</text>
+      <text x="24" y="88" fill="var(--muted)">{T.l1b}</text>
+      <text x="24" y="120" fill="#7CE3A5" style="font-size:10.5px">{T.l1c}</text>
       <rect x="24" y="132" width="52" height="6" rx="3" fill="#7CE3A5"/>
-      <!-- 箭头 1 -->
       <path d="M236 98 h24" stroke="var(--line-strong)" stroke-width="1.5"/>
       <path d="M258 93 l8 5 -8 5 z" fill="var(--line-strong)"/>
-      <!-- 第二级 -->
       <rect x="270" y="38" width="220" height="120" rx="10" fill="var(--panel)" stroke="var(--line-strong)"/>
-      <text x="286" y="28" fill="var(--faint)" style="letter-spacing:.14em;font-size:10px">LEVEL 2 · 任务匹配才加载</text>
-      <text x="286" y="66" fill="var(--ink)" font-weight="700" style="font-size:13px">SKILL.md 正文</text>
-      <text x="286" y="88" fill="var(--muted)">步骤 · 守则 · Gotchas</text>
-      <text x="286" y="120" fill="var(--hl)" style="font-size:10.5px">按需注入上下文</text>
+      <text x="286" y="28" fill="var(--faint)" style="letter-spacing:.14em;font-size:10px">{T.l2}</text>
+      <text x="286" y="66" fill="var(--ink)" font-weight="700" style="font-size:13px">{T.l2a}</text>
+      <text x="286" y="88" fill="var(--muted)">{T.l2b}</text>
+      <text x="286" y="120" fill="var(--hl)" style="font-size:10.5px">{T.l2c}</text>
       <rect x="286" y="132" width="110" height="6" rx="3" fill="var(--hl)"/>
-      <!-- 箭头 2 -->
       <path d="M498 98 h24" stroke="var(--line-strong)" stroke-width="1.5"/>
       <path d="M520 93 l8 5 -8 5 z" fill="var(--line-strong)"/>
-      <!-- 第三级 -->
       <rect x="532" y="38" width="220" height="120" rx="10" fill="var(--panel)" stroke="var(--line-strong)"/>
-      <text x="548" y="28" fill="var(--faint)" style="letter-spacing:.14em;font-size:10px">LEVEL 3 · 用到才读</text>
+      <text x="548" y="28" fill="var(--faint)" style="letter-spacing:.14em;font-size:10px">{T.l3}</text>
       <text x="548" y="66" fill="var(--ink)" font-weight="700" style="font-size:13px">references/ scripts/</text>
-      <text x="548" y="88" fill="var(--muted)">资料 · 脚本 · assets/</text>
-      <text x="548" y="120" fill="var(--blue)" style="font-size:10.5px">Claude 自己按需去读</text>
+      <text x="548" y="88" fill="var(--muted)">{T.l3b}</text>
+      <text x="548" y="120" fill="var(--blue)" style="font-size:10.5px">{T.l3c}</text>
       <rect x="548" y="132" width="180" height="6" rx="3" fill="var(--blue)"/>
-      <!-- 底部注 -->
-      <text x="8" y="196" fill="var(--faint)" style="font-size:10.5px">▁ 色条 = 占用上下文的相对成本:装满 25 个 Skill,常驻的也只有第一级。</text>
+      <text x="8" y="196" fill="var(--faint)" style="font-size:10.5px">{T.note}</text>
     </g>
   </svg>
 </figure>

@@ -1,0 +1,95 @@
+---
+// /en/claude-md · four-layer CLAUDE.md templates: MemoryTree + tabs + copy + download
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../../components/ChapterHead.astro';
+import MemoryTree from '../../components/MemoryTree.astro';
+import KvTable from '../../components/KvTable.astro';
+import Term from '../../components/Term.astro';
+
+const templates = (await getCollection('templates'))
+  .filter(t => t.id.startsWith('en/'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Site
+  locale="en"
+  title="CLAUDE.md templates — Claude Code Arsenal"
+  description="Global / project / directory / personal — four copy-ready CLAUDE.md memory templates: behavior globally, facts per project, local rules per directory, privacy in local."
+>
+  <section class="ch" id="templates" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag="$ cat CLAUDE.md · TEMPLATES"
+        title="Four memory layers, copy-ready"
+        ledeHtml={`Each layer has one job: <span class="hl">behavior goes global, facts go per-project, local rules per directory, privacy in local</span>. These templates follow the official docs and community best practice and are deliberately lean — use them as skeletons and fill in your real facts, don't paste them verbatim.`}
+      />
+      <div class="reveal" style="max-width:640px;margin-bottom:34px">
+        <MemoryTree locale="en" />
+      </div>
+      <div class="tabs reveal" role="tablist">
+        {templates.map((t, i) => (
+          <button class={`tab${i === 0 ? ' on' : ''}`} data-tab={t.data.layer} role="tab">{t.data.tabLabel}</button>
+        ))}
+      </div>
+      {templates.map((t, i) => (
+        <div class={`panel${i === 0 ? ' on' : ''} reveal`} data-panel={t.data.layer}>
+          <div class="panel-info">
+            <h3><span class="scope-badge">{t.data.scopeLabel}</span>{t.data.title}</h3>
+            <KvTable rows={[
+              { k: 'Save at', v: t.data.savePath },
+              { k: 'Loads', v: t.data.loadTiming },
+              { k: 'Put in', v: t.data.put.join('') },
+              { k: 'Keep out', v: t.data.avoid.join('') },
+            ]} />
+          </div>
+          <Term
+            title={t.data.termTitle}
+            copyTarget={`#tpl-${t.data.layer}`}
+            copyLabel="copy"
+            copyDoneLabel="copied ✓"
+            codeId={`tpl-${t.data.layer}`}
+            content={(t.body ?? '').trim()}
+          >
+            <button
+              slot="actions"
+              class="copy"
+              data-download-target={`#tpl-${t.data.layer}`}
+              data-filename={t.data.layer === 'local' ? 'CLAUDE.local.md' : 'CLAUDE.md'}
+            >download .md</button>
+          </Term>
+        </div>
+      ))}
+    </div>
+  </section>
+</Site>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
+  tabs.forEach(t => {
+    t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+      const k = t.getAttribute('data-tab');
+      document.querySelectorAll<HTMLElement>('.panel').forEach(p => {
+        p.classList.toggle('on', p.getAttribute('data-panel') === k);
+      });
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-download-target]');
+    if (!btn) return;
+    const el = document.querySelector(btn.dataset.downloadTarget!);
+    if (!el) return;
+    const blob = new Blob([el.textContent ?? ''], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = btn.dataset.filename ?? 'CLAUDE.md';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+</script>

@@ -4,6 +4,8 @@ origin: official
 category: dev
 summary: 内置最新 Claude API 参考、SDK 文档与 8 种语言的最佳实践,写集成代码时不再依赖过期的训练记忆。
 usageExample: 按 claude-api skill 用 TypeScript 写一个流式调用示例
+summaryEn: "Ships the latest Claude API reference, SDK docs, and best practices in 8 languages — no more stale training memory when writing integrations."
+usageExampleEn: "Following the claude-api skill, write a streaming example in TypeScript"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

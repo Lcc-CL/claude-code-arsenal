@@ -1,0 +1,35 @@
+---
+title: SKILL.md, Field by Field
+description: "A Skill is a folder, not just a Markdown file. Three-level progressive disclosure makes it nearly free to keep around: ~100 tokens of metadata at startup, the body on task match, scripts and references on demand."
+order: 2
+updatedAt: 2026-07-08
+---
+import Term from '../../../components/Term.astro';
+import SecNote from '../../../components/SecNote.astro';
+import FigDisclosure from '../../../components/FigDisclosure.astro';
+
+A Skill is a folder, not just a Markdown file. Three-level progressive disclosure makes it nearly free to keep around: startup reads only ~100 tokens of metadata, the body loads on task match, and scripts and references are read on demand.
+
+<FigDisclosure locale="en" />
+
+## SKILL.md, annotated
+
+export const skillTpl = "---\nname: pr-review                # required; also the /pr-review command name\ndescription: >                 # required; the ONLY signal for when to trigger:\n  Review PRs against team standards:   #   say what it does + when to use it +\n  security, performance, test coverage. #   the words users might say\n  Use when the user says \"review /\n  look at this PR\".\nallowed-tools: Read, Grep, Glob  # optional: restrict tools (read-only review)\ncontext: fork                  # optional: run in a forked context\nagent: Explore                 # optional: delegate to a built-in/custom subagent\nuser-invocable: false          # optional: Claude-triggered only, no slash menu\n---\n\n# Review process\n1. Use Grep to locate the touched modules and their callers\n2. Check item by item against references/checklist.md\n3. Output a three-tier report: blockers / suggestions / ignorable\n\n# Gotchas (the most valuable section: real scars)\n- Any change to signature verification under webhooks/ is a blocker";
+
+<Term title="my-skill/SKILL.md — annotated" copyTarget="#tpl-skill" copyLabel="copy" copyDoneLabel="copied ✓" codeId="tpl-skill" content={skillTpl} />
+
+<p class="fig-note">The folder can also hold <span class="mono">references/</span> (docs), <span class="mono">scripts/</span> (executables), and <span class="mono">assets/</span> (templates) — mention them in the body and Claude will read them at the right moment. Custom slash commands have merged into Skills: <span class="mono">.claude/skills/deploy/SKILL.md</span> automatically becomes <span class="mono">/deploy</span>.</p>
+
+## Where skills live
+
+<div class="loc-table">
+  <div class="loc-row head"><div>Path</div><div>Scope</div></div>
+  <div class="loc-row"><div>{'~/.claude/skills/<name>/'}</div><div>Personal skill, available in all your projects</div></div>
+  <div class="loc-row"><div>{'.claude/skills/<name>/'}</div><div>Project skill, shared with the team via git</div></div>
+  <div class="loc-row"><div>plugin plugins/…/skills/</div><div>Installed via /plugin; can bundle hooks / subagents / MCP</div></div>
+  <div class="loc-row"><div>{'.claude/agents/<name>.md'}</div><div>Subagent definition; a skills: field in frontmatter preloads skills for it</div></div>
+</div>
+
+<p class="fig-note">Skill directories hot-reload: adding or editing a skill takes effect immediately in the session, no restart needed (except creating the top-level skills directory itself).</p>
+
+<SecNote>Read a third-party skill's SKILL.md and scripts/ before installing — skills steer Claude's behavior and may execute code. Prefer official and well-known sources; when in doubt, audit with tools like NVIDIA's open-source Agent Skill scanner for prompt injection, data exfiltration, and tool poisoning.</SecNote>

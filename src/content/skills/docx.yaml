@@ -4,6 +4,8 @@ origin: official
 category: doc
 summary: 创建、编辑与分析 Word 文档:支持修订(Track Changes)、批注、格式保留与文本抽取。Claude.ai 文档能力背后的同款 Skill。
 usageExample: 用 docx skill 把这份纪要整理成带目录的 Word 报告
+summaryEn: "Create, edit, and analyze Word documents: tracked changes, comments, format preservation, and text extraction. The same skill behind Claude.ai's document features."
+usageExampleEn: "Use the docx skill to turn these notes into a Word report with a table of contents"
 install:
   method: plugin
   command: /plugin install document-skills@anthropic-agent-skills

@@ -1,5 +1,5 @@
 ---
-// Site · 站点外壳:Base + 铭牌 + 粘性导航 + 页脚(SPEC 第 3 节导航)
+// Site · 站点外壳:Base + 铭牌 + 粘性导航 + 页脚 + 命令面板(双语)
 import Base from './Base.astro';
 import Plate from '../components/Plate.astro';
 import SiteNav from '../components/SiteNav.astro';
@@ -9,28 +9,52 @@ import CommandPalette from '../components/CommandPalette.astro';
 interface Props {
   title: string;
   description: string;
+  locale?: 'zh' | 'en';
 }
 
-const { title, description } = Astro.props;
+const { title, description, locale = 'zh' } = Astro.props;
+const en = locale === 'en';
 
-const navLinks = [
-  { num: '01', label: '技能库', href: '/skills' },
-  { num: '02', label: 'CLAUDE.md 模板', href: '/claude-md' },
-  { num: '03', label: '学习指南', href: '/guide' },
-  { num: '04', label: '资源库', href: '/resources' },
-  { num: '05', label: '关于', href: '/about' },
-];
+const navLinks = en
+  ? [
+      { num: '01', label: 'Skills', href: '/en/skills' },
+      { num: '02', label: 'CLAUDE.md', href: '/en/claude-md' },
+      { num: '03', label: 'Guides', href: '/en/guide' },
+      { num: '04', label: 'Resources', href: '/en/resources' },
+      { num: '05', label: 'About', href: '/en/about' },
+    ]
+  : [
+      { num: '01', label: '技能库', href: '/skills' },
+      { num: '02', label: 'CLAUDE.md 模板', href: '/claude-md' },
+      { num: '03', label: '学习指南', href: '/guide' },
+      { num: '04', label: '资源库', href: '/resources' },
+      { num: '05', label: '关于', href: '/about' },
+    ];
+
+// 语言切换:映射到另一语言的对应路径
+const path = Astro.url.pathname;
+const langHref = en ? (path.replace(/^\/en\/?/, '/') || '/') : `/en${path === '/' ? '' : path}`.replace(/\/$/, '') || '/en';
 ---
 
-<Base title={title} description={description}>
-  <Plate title="CC·FIELD MANUAL" code="CCA-2026-07" version="Claude Code v2.x" />
-  <SiteNav links={navLinks} />
+<Base title={title} description={description} lang={en ? 'en' : 'zh-CN'} altHref={langHref} altLang={en ? 'zh-CN' : 'en'}>
+  <Plate locale={locale} />
+  <SiteNav links={navLinks} locale={locale} langHref={langHref} />
   <slot />
-  <Footer />
-  <CommandPalette />
+  <Footer locale={locale} />
+  <CommandPalette locale={locale} />
 </Base>
 
 <script>
+  // 阅读进度条:nav 底沿磷光带(信息型)
+  const nav = document.querySelector<HTMLElement>('.nav');
+  function onScroll() {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    nav?.style.setProperty('--progress', max > 0 ? `${(doc.scrollTop / max) * 100}%` : '0%');
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
   // 入场动画(与 Reveal 组件同源逻辑;尊重 prefers-reduced-motion)
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const els = document.querySelectorAll('.reveal');

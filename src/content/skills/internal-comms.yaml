@@ -4,6 +4,8 @@ origin: official
 category: team
 summary: 撰写各类内部沟通:进度三段报(Progress / Plans / Problems)、全员邮件、变更通知、事故通报、FAQ 与高管简报。
 usageExample: 用 internal-comms 写一封停机维护的全员通知
+summaryEn: "Write internal communications of every kind: 3P progress reports (Progress / Plans / Problems), all-hands emails, change notices, incident reports, FAQs, and exec briefs."
+usageExampleEn: "Use internal-comms to draft an all-hands notice for the maintenance window"
 install:
   method: plugin
   command: /plugin install example-skills@anthropic-agent-skills

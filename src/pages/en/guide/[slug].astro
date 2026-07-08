@@ -1,0 +1,45 @@
+---
+// /en/guide/[slug] · single guide: content left, auto TOC right (hidden ≤980px)
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Site from '../../../layouts/Site.astro';
+import ChapterHead from '../../../components/ChapterHead.astro';
+
+export const getStaticPaths = (async () => {
+  const guides = (await getCollection('guides')).filter(g => g.id.startsWith('en/'));
+  return guides.map(g => ({ params: { slug: g.id.slice(3) }, props: { guide: g } }));
+}) satisfies GetStaticPaths;
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const toc = headings.filter(h => h.depth <= 3);
+const slug = guide.id.slice(3);
+---
+
+<Site
+  locale="en"
+  title={`${guide.data.title} — Guides · Claude Code Arsenal`}
+  description={guide.data.description}
+>
+  <section class="ch" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag={`$ man ${slug} · GUIDE 0${guide.data.order}`}
+        title={guide.data.title}
+        lede={guide.data.description}
+      />
+      <div class="guide-layout">
+        <div class="guide-body reveal">
+          <Content />
+          <p class="fig-note" style="margin-top:34px"><a href="/en/guide">← Back to guides</a></p>
+        </div>
+        {toc.length > 0 && (
+          <nav class="guide-toc" aria-label="On this page">
+            <div class="guide-toc-tag">ON THIS PAGE</div>
+            {toc.map(h => <a href={`#${h.slug}`}>{h.text}</a>)}
+          </nav>
+        )}
+      </div>
+    </div>
+  </section>
+</Site>
