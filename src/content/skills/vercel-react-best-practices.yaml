@@ -1,0 +1,15 @@
+name: vercel-react-best-practices
+slug: vercel-react-best-practices
+origin: community
+category: dev
+summary: Vercel 官方 React / Next.js 最佳实践集:数据获取、缓存与组件模式,skills.sh 安装榜前列。
+usageExample: 按 vercel-react-best-practices 审查这个组件的数据获取
+install:
+  method: npx
+  command: npx skills add vercel-labs/agent-skills/vercel-react-best-practices
+sourceUrl: https://github.com/vercel-labs/agent-skills
+tags: [React, 前端]
+featured: false
+order: 22
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

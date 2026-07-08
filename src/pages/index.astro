@@ -9,6 +9,7 @@ import ResourceRow from '../components/ResourceRow.astro';
 import ChapterHead from '../components/ChapterHead.astro';
 
 const skills = (await getCollection('skills')).map(e => e.data);
+const officialCount = skills.filter(s => s.origin === 'official').length;
 const resources = (await getCollection('resources')).map(e => e.data).sort((a, b) => a.order - b.order);
 const featuredSkills = skills.filter(s => s.featured).sort((a, b) => a.order - b.order).slice(0, 3);
 const featuredResources = resources.slice(0, 3);
@@ -35,7 +36,7 @@ const step2Copy = `/plugin marketplace add anthropics/skills
           <p class="hero-sub">给 Claude Code 配上<span class="hl">正确的技能</span>与<span class="hl">正确的记忆</span>,它才像一位老同事。</p>
           <p class="hero-lede">本手册实时汇集 Anthropic 官方仓库与各大权威社区的精选 Skills,并提供经过最佳实践打磨的全局 / 项目 / 目录 / 个人四层 CLAUDE.md 模板——每一段都可直接复制落地,附完整开发者使用说明。</p>
           <div class="hero-stats">
-            <div class="stat"><b>{skills.length}</b>官方 Skills</div>
+            <div class="stat"><b>{officialCount}</b>官方 Skills</div>
             <div class="stat"><b>{resources.length}</b>权威资源库</div>
             <div class="stat"><b>4</b>层记忆模板</div>
             <div class="stat"><b>100%</b>可复制落地</div>

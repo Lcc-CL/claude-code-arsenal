@@ -1,0 +1,15 @@
+name: test-driven-development
+slug: test-driven-development
+origin: community
+category: dev
+summary: superpowers 的 TDD 纪律:严格 RED→GREEN→REFACTOR 循环,附测试反模式清单。
+usageExample: 按 test-driven-development 先写测试再实现这个函数
+install:
+  method: plugin
+  command: /plugin install superpowers@claude-plugins-official
+sourceUrl: https://github.com/obra/superpowers
+tags: [测试, TDD]
+featured: false
+order: 19
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

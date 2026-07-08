@@ -1,0 +1,15 @@
+name: systematic-debugging
+slug: systematic-debugging
+origin: community
+category: dev
+summary: obra/superpowers 招牌技能:四阶段根因定位流程,先证据后修复,治好「瞎猜式调试」。
+usageExample: 用 systematic-debugging 定位这个偶发的登录失败
+install:
+  method: plugin
+  command: /plugin install superpowers@claude-plugins-official
+sourceUrl: https://github.com/obra/superpowers
+tags: [调试, 工作流]
+featured: false
+order: 18
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

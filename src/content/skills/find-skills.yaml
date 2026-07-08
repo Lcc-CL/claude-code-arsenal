@@ -1,0 +1,15 @@
+name: find-skills
+slug: find-skills
+origin: community
+category: dev
+summary: skills.sh 装机量第一的元技能:让 Claude 按任务自己检索并安装合适的技能。
+usageExample: 用 find-skills 找一个适合处理 PDF 表单的技能
+install:
+  method: npx
+  command: npx skills add vercel-labs/skills/find-skills
+sourceUrl: https://github.com/vercel-labs/skills
+tags: [元技能, 检索]
+featured: false
+order: 23
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

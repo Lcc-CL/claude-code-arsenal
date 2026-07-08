@@ -1,0 +1,15 @@
+name: brainstorming
+slug: brainstorming
+origin: community
+category: team
+summary: superpowers 的苏格拉底式设计打磨:动手前先追问需求与边界,把想法磨成可执行方案。
+usageExample: 用 brainstorming 和我打磨这个功能的设计
+install:
+  method: plugin
+  command: /plugin install superpowers@claude-plugins-official
+sourceUrl: https://github.com/obra/superpowers
+tags: [设计, 协作]
+featured: false
+order: 20
+addedAt: 2026-07-08
+lastVerified: 2026-07-08
