@@ -8,7 +8,8 @@ const token = process.env.GITHUB_TOKEN;
 const today = new Date().toISOString().slice(0, 10);
 const skipped = [];
 
-const fmt = (n) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n));
+// 纯数字加引号,避免 YAML 解析成 number 撞 schema 的 string 类型
+const fmt = (n) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : `"${n}"`);
 
 for (const file of readdirSync(DIR).filter(f => f.endsWith('.yaml'))) {
   const path = join(DIR, file);

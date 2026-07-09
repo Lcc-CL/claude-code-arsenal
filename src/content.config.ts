@@ -36,7 +36,8 @@ const resources = defineCollection({
     desc: z.string(),
     descEn: z.string().optional(),
     badge: z.enum(['官方', '市场', '导航', '合辑', '中文', '垂直', '安全']),
-    stars: z.string().optional(),
+    // coerce:sync-stars 写入的纯数字星数(如 577)也接受
+    stars: z.coerce.string().optional(),
     installCommand: z.string().optional(),
     // installLabel:基准中按钮文案有三种(复制安装/复制命令/复制示例),需随数据保留
     installLabel: z.string().optional(),
