@@ -3,6 +3,8 @@ url: https://github.com/mattpocock/skills
 desc: Matt Pocock(Total TypeScript 作者)的个人技能仓库:grill-me 等方案评审向技能的出处。
 descEn: "Matt Pocock's (Total TypeScript) personal skill repo — home of grill-me and other plan-review skills."
 badge: 合辑
+stars: 161.6k
 installCommand: npx skills add mattpocock/skills/grill-me
 installLabel: 复制示例
 order: 14
+lastVerified: 2026-07-09
