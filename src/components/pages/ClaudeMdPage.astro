@@ -1,0 +1,114 @@
+---
+// ClaudeMdPage · 四层记忆模板库(双语共享版式:MemoryTree + Tabs + 复制 + 下载)
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../ChapterHead.astro';
+import MemoryTree from '../MemoryTree.astro';
+import KvTable from '../KvTable.astro';
+import Term from '../Term.astro';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+
+const templates = (await getCollection('templates'))
+  .filter(t => t.id.startsWith('en/') === en)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const T = en
+  ? {
+      title: 'CLAUDE.md templates — Claude Code Arsenal',
+      description: 'Global / project / directory / personal — four copy-ready CLAUDE.md memory templates: behavior globally, facts per project, local rules per directory, privacy in local.',
+      h2: 'Four memory layers, copy-ready',
+      ledeHtml: `Each layer has one job: <span class="hl">behavior goes global, facts go per-project, local rules per directory, privacy in local</span>. These templates follow the official docs and community best practice and are deliberately lean — use them as skeletons and fill in your real facts, don't paste them verbatim.`,
+      kv: ['Save at', 'Loads', 'Put in', 'Keep out'],
+      download: 'download .md', copyLabel: 'copy', copyDone: 'copied ✓',
+    }
+  : {
+      title: 'CLAUDE.md 模板库 — Claude Code Arsenal · 装备手册',
+      description: '全局/项目/目录/个人四层 CLAUDE.md 记忆模板,复制即用、可下载 .md;全局管行为,项目管事实,目录管局部,local 管隐私。',
+      h2: '四层记忆模板 · 复制即用',
+      ledeHtml: '四层各司其职:<span class="hl">全局管行为,项目管事实,目录管局部,local 管隐私</span>。以下模板依据官方文档与社区最佳实践编写并刻意保持精简——请以它为骨架填入你的真实信息,而不是原样照贴。',
+      kv: ['保存路径', '加载时机', '放什么', '别放什么'],
+      download: '下载 .md', copyLabel: '复制模板', copyDone: undefined as string | undefined,
+    };
+---
+
+<Site locale={locale} title={T.title} description={T.description}>
+  <section class="ch" id="templates" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead tag="$ cat CLAUDE.md · TEMPLATES" title={T.h2} ledeHtml={T.ledeHtml} />
+      <div class="reveal" style="max-width:640px;margin-bottom:34px">
+        <MemoryTree locale={locale} />
+      </div>
+      <div class="tabs reveal" role="tablist">
+        {templates.map((t, i) => (
+          <button class={`tab${i === 0 ? ' on' : ''}`} data-tab={t.data.layer} role="tab">{t.data.tabLabel}</button>
+        ))}
+      </div>
+      {templates.map((t, i) => (
+        <div class={`panel${i === 0 ? ' on' : ''} reveal`} data-panel={t.data.layer}>
+          <div class="panel-info">
+            <h3><span class="scope-badge">{t.data.scopeLabel}</span>{t.data.title}</h3>
+            <KvTable rows={[
+              { k: T.kv[0], v: t.data.savePath },
+              { k: T.kv[1], v: t.data.loadTiming },
+              { k: T.kv[2], v: t.data.put.join('') },
+              { k: T.kv[3], v: t.data.avoid.join('') },
+            ]} />
+          </div>
+          <Term
+            title={t.data.termTitle}
+            copyTarget={`#tpl-${t.data.layer}`}
+            copyLabel={T.copyLabel}
+            copyDoneLabel={T.copyDone}
+            codeId={`tpl-${t.data.layer}`}
+            content={(t.body ?? '').trim()}
+          >
+            <button
+              slot="actions"
+              class="copy"
+              data-download-target={`#tpl-${t.data.layer}`}
+              data-filename={t.data.layer === 'local' ? 'CLAUDE.local.md' : 'CLAUDE.md'}
+            >{T.download}</button>
+          </Term>
+        </div>
+      ))}
+    </div>
+  </section>
+</Site>
+
+<script>
+  // Tabs 切换
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
+  tabs.forEach(t => {
+    t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+      const k = t.getAttribute('data-tab');
+      document.querySelectorAll<HTMLElement>('.panel').forEach(p => {
+        p.classList.toggle('on', p.getAttribute('data-panel') === k);
+      });
+    });
+  });
+
+  // 下载 .md(Blob;个人层文件名 CLAUDE.local.md)
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-download-target]');
+    if (!btn) return;
+    const el = document.querySelector(btn.dataset.downloadTarget!);
+    if (!el) return;
+    const blob = new Blob([el.textContent ?? ''], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = btn.dataset.filename ?? 'CLAUDE.md';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+</script>

@@ -1,0 +1,44 @@
+---
+// ResourcesPage · 社区资源库(双语共享版式)
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../ChapterHead.astro';
+import ResourceRow from '../ResourceRow.astro';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+
+const resources = (await getCollection('resources')).map(e => e.data).sort((a, b) => a.order - b.order);
+
+const T = en
+  ? {
+      title: 'Resources — Claude Code Arsenal',
+      description: 'Authoritative community resources: official repos, skill markets, curated indexes, Chinese-language collections, and security auditing tools — install commands included.',
+      h2: `The community shelf · ${resources.length} picks`,
+      lede: "Beyond the official repos, these are the community's recognized hubs — from skill markets and curated lists to domain collections and security auditing tools. Entries with a command are copy-to-install.",
+      fineprint: "★ Star counts are snapshots refreshed weekly by CI (community numbers drift); trust each repo's live number. Entries without links rank first on GitHub for their names.",
+    }
+  : {
+      title: '资源库 — Claude Code Arsenal · 装备手册',
+      description: `权威社区资源库精选 ${resources.length} 席:官方仓库、技能市场、精选导航、中文合集与安全审计工具,带命令的可直接复制安装。`,
+      h2: `权威社区资源库 · 精选 ${resources.length} 席`,
+      lede: '官方之外,这些是社区公认的高质量集散地——从技能市场、精选清单到中文原创合集与安全审计工具。带命令的可直接复制安装。',
+      fineprint: '★ 星数为快照,由 CI 每周自动刷新(社区数据随时间变化),以各仓库实际为准;未附链接的条目在 GitHub 按名称搜索即达首位。',
+    };
+---
+
+<Site locale={locale} title={T.title} description={T.description}>
+  <section class="ch" id="community" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead tag="$ curl community/ · RESOURCES" title={T.h2} lede={T.lede} />
+      <div class="res-list reveal">
+        {resources.map(resource => <ResourceRow resource={resource} locale={locale} />)}
+      </div>
+      <p class="fineprint">{T.fineprint}</p>
+    </div>
+  </section>
+</Site>

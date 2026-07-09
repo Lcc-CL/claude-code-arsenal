@@ -1,0 +1,46 @@
+---
+// GuideDetailPage · 单篇指南(双语共享版式:左内容右 TOC)
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../ChapterHead.astro';
+
+export interface Props {
+  guide: CollectionEntry<'guides'>;
+  locale?: 'zh' | 'en';
+}
+
+const { guide, locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+const { Content, headings } = await render(guide);
+const toc = headings.filter(h => h.depth <= 3);
+const slug = en ? guide.id.slice(3) : guide.id;
+
+const T = en
+  ? { title: `${guide.data.title} — Guides · Claude Code Arsenal`, back: '← Back to guides', backHref: '/en/guide', tocLabel: 'On this page' }
+  : { title: `${guide.data.title} — 学习指南 · Claude Code Arsenal`, back: '← 返回指南索引', backHref: '/guide', tocLabel: '本页目录' };
+---
+
+<Site locale={locale} title={T.title} description={guide.data.description}>
+  <section class="ch" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead
+        tag={`$ man ${slug} · GUIDE 0${guide.data.order}`}
+        title={guide.data.title}
+        lede={guide.data.description}
+      />
+      <div class="guide-layout">
+        <div class="guide-body reveal">
+          <Content />
+          <p class="fig-note" style="margin-top:34px"><a href={T.backHref}>{T.back}</a></p>
+        </div>
+        {toc.length > 0 && (
+          <nav class="guide-toc" aria-label={T.tocLabel}>
+            <div class="guide-toc-tag">ON THIS PAGE</div>
+            {toc.map(h => <a href={`#${h.slug}`}>{h.text}</a>)}
+          </nav>
+        )}
+      </div>
+    </div>
+  </section>
+</Site>

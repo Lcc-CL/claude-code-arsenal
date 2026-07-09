@@ -9,6 +9,7 @@
 - 类型门:  pnpm astro check
 - 构建:   pnpm build && pnpm preview
 - 星数同步: node scripts/sync-stars.mjs(CI 每周一自动跑)
+- 收录入库: pnpm ingest add|batch / pnpm scout(三模式详见 @docs/INGEST.md;条目须人工核实)
 - 新增依赖: 必须先说明理由并对照 SPEC 第 2 节获准
 
 ## 目录速览
@@ -16,7 +17,7 @@
 - src/components/         Plate / SiteNav / Term / CopyButton / MemoryTree / CommandPalette ...
 - src/content/            skills(yaml)/ resources(yaml)/ templates(md)/ guides(mdx)
 - 双语:templates/guides 英文版放各自 en/ 子目录;skills/resources 用 *En 字段;/en 路由镜像页面;chrome 组件走 locale prop
-- src/pages/              路由页,只做组装,不写业务文案(章节头 tag 用 shell 命令风格)
+- src/pages/              路由薄壳(3–13 行);版式与双语文案在 src/components/pages/ 共享组件里,改版只动那里
 - scripts/                sync-stars.mjs 等自动化脚本
 - reference/              v1 基准存档,只读
 

@@ -1,0 +1,48 @@
+---
+// SkillsPage · 技能目录(双语共享版式:筛选 + 卡片网格)
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../ChapterHead.astro';
+import FilterBar from '../FilterBar.astro';
+import SkillCard from '../SkillCard.astro';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+
+const skills = (await getCollection('skills')).map(e => e.data).sort((a, b) => a.order - b.order);
+const officialCount = skills.filter(s => s.origin === 'official').length;
+const communityCount = skills.length - officialCount;
+
+const T = en
+  ? {
+      title: 'Skills — Claude Code Arsenal',
+      description: 'All official Anthropic skills plus vetted community picks: documents, engineering, creative, and teamwork — filterable, with install commands and usage prompts.',
+      h2: `All ${officialCount} official · ${communityCount} community picks and counting`,
+      ledeHtml: 'Official entries come straight from the public <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">github.com/anthropics/skills</a> repo; community entries are verified against authoritative charts before inclusion. Each skill is a self-contained folder with a SKILL.md — Claude loads it automatically on task match, or you can call it by name.',
+      note: '※ The official skills above are installed by the two /plugin install lines in STEP 02; Claude.ai paid plans have them built in. Each skill keeps only ~100 tokens of metadata resident — progressive disclosure means even a full rack won’t slow your session.',
+    }
+  : {
+      title: '技能库 — Claude Code Arsenal · 装备手册',
+      description: 'Anthropic 官方 Skills 全收录 + 社区精选:文档处理、开发工程、创意视觉与协作沟通,按类别筛选,附安装命令与调用示例。',
+      h2: `官方 ${officialCount} 全收录 · 社区精选 ${communityCount} 持续增补`,
+      ledeHtml: '官方条目全部来自 <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">github.com/anthropics/skills</a> 公开仓库,社区条目经权威榜单核实后收录。每个 Skill 是一个含 SKILL.md 的自包含文件夹,Claude 会在任务匹配时自动加载——你也可以在对话里直接点名调用。',
+      note: '※ 以上官方 Skills 已随 STEP 02 的两条 /plugin install 一并装入;Claude.ai 付费版则已内置,无需安装。每个 Skill 常驻上下文仅约 100 token 元数据,正文与资源按需渐进加载,装满也不拖慢会话。',
+    };
+---
+
+<Site locale={locale} title={T.title} description={T.description}>
+  <section class="ch" id="official" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead tag="$ ls ~/.claude/skills/ · SKILLS" title={T.h2} ledeHtml={T.ledeHtml} />
+      <FilterBar locale={locale} cards={skills.map(s => ({ category: s.category, origin: s.origin }))} />
+      <div class="cards reveal">
+        {skills.map(skill => <SkillCard skill={skill} locale={locale} />)}
+      </div>
+      <p class="bundle-note">{T.note}</p>
+    </div>
+  </section>
+</Site>

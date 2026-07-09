@@ -1,0 +1,100 @@
+---
+// AboutPage · 关于本站(双语共享版式:定位 + 来源清单 + 投稿)
+import Site from '../../layouts/Site.astro';
+import ChapterHead from '../ChapterHead.astro';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+
+const sources = en
+  ? [
+      { name: 'Claude Code docs · Skills', u: 'code.claude.com/docs/en/skills', href: 'https://code.claude.com/docs/en/skills' },
+      { name: 'Claude Code docs · Memory / CLAUDE.md', u: 'code.claude.com/docs/en/memory', href: 'https://code.claude.com/docs/en/memory' },
+      { name: 'Claude Code best practices', u: 'code.claude.com/docs/en/best-practices', href: 'https://code.claude.com/docs/en/best-practices' },
+      { name: 'anthropics/skills official repo', u: 'github.com/anthropics/skills', href: 'https://github.com/anthropics/skills' },
+      { name: 'Official plugin directory', u: 'github.com/anthropics/claude-plugins-official', href: 'https://github.com/anthropics/claude-plugins-official' },
+      { name: 'Agent Skills overview (platform docs)', u: 'platform.claude.com/docs', href: 'https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview' },
+      { name: 'Anthropic engineering · Agent Skills', u: 'anthropic.com/engineering', href: 'https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills' },
+      { name: 'Agent Skills open standard', u: 'agentskills.io', href: 'https://agentskills.io' },
+      { name: 'skills.sh ecosystem (Vercel)', u: 'skills.sh', href: 'https://skills.sh' },
+      { name: 'What are skills? (support center)', u: 'support.claude.com', href: 'https://support.claude.com/en/articles/12512176-what-are-skills' },
+      { name: 'awesome-agent-skills (Chinese ultimate guide)', u: 'github.com/libukai/awesome-agent-skills', href: 'https://github.com/libukai/awesome-agent-skills' },
+      { name: 'claude-code-skills-zh (Chinese picks)', u: 'github.com/laolaoshiren', href: 'https://github.com/laolaoshiren/claude-code-skills-zh' },
+    ]
+  : [
+      { name: 'Claude Code 官方文档 · Skills', u: 'code.claude.com/docs/en/skills', href: 'https://code.claude.com/docs/en/skills' },
+      { name: 'Claude Code 官方文档 · Memory / CLAUDE.md', u: 'code.claude.com/docs/en/memory', href: 'https://code.claude.com/docs/en/memory' },
+      { name: 'Claude Code 官方最佳实践', u: 'code.claude.com/docs/en/best-practices', href: 'https://code.claude.com/docs/en/best-practices' },
+      { name: 'anthropics/skills 官方仓库', u: 'github.com/anthropics/skills', href: 'https://github.com/anthropics/skills' },
+      { name: '官方插件目录', u: 'github.com/anthropics/claude-plugins-official', href: 'https://github.com/anthropics/claude-plugins-official' },
+      { name: 'Agent Skills 总览(API 平台文档)', u: 'platform.claude.com/docs', href: 'https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview' },
+      { name: 'Anthropic 工程博客 · Agent Skills', u: 'anthropic.com/engineering', href: 'https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills' },
+      { name: 'Agent Skills 开放标准', u: 'agentskills.io', href: 'https://agentskills.io' },
+      { name: 'skills.sh 技能生态(Vercel)', u: 'skills.sh', href: 'https://skills.sh' },
+      { name: 'What are skills?(官方支持中心)', u: 'support.claude.com', href: 'https://support.claude.com/en/articles/12512176-what-are-skills' },
+      { name: 'awesome-agent-skills 中文终极指南', u: 'github.com/libukai/awesome-agent-skills', href: 'https://github.com/libukai/awesome-agent-skills' },
+      { name: 'claude-code-skills-zh 中文精选', u: 'github.com/laolaoshiren', href: 'https://github.com/laolaoshiren/claude-code-skills-zh' },
+    ];
+
+const T = en
+  ? {
+      title: 'About — Claude Code Arsenal',
+      description: 'What Claude Code Arsenal is, the authoritative sources behind it, and how to contribute: one yaml file per new entry.',
+      aboutH2: 'A field manual for Claude Code developers',
+      aboutLede: "This manual gathers curated skills from Anthropic's official repos and the community's authoritative hubs, plus four-layer CLAUDE.md memory templates refined against best practice — every block copy-ready, with full developer instructions.",
+      aboutP: "The author's own study notes, in service of Claude Code developers everywhere: find a skill or template → copy the install command or full text → back to the terminal. Fully static, no backend, no accounts; content is data-driven, star counts refresh weekly, and a scout bot files leaderboard candidates every Monday.",
+      authorP: ['AUTHOR — Cc · find me on X: ', ' — leads and corrections welcome.'],
+      srcH2: 'Authoritative sources',
+      srcLede: 'All factual content follows these official docs and public repos; the ecosystem moves fast — trust the live versions behind the links.',
+      cbH2: 'One new entry = one yaml file',
+      cbLede: 'Everything on this site comes from content collections: to add a skill or resource, open a PR with one small file — pass the schema check and it ships.',
+      cbHtml: 'Skills go in <span class="mono" style="font-size:12.5px">src/content/skills/&lt;slug&gt;.yaml</span> (name / origin / category / summary / usageExample / install / sourceUrl), resources in <span class="mono" style="font-size:12.5px">src/content/resources/&lt;slug&gt;.yaml</span>. Include a source link; run third-party skills through a security audit first. Ingestion has three modes (manual / batch / weekly scout) — see <span class="mono" style="font-size:12.5px">docs/INGEST.md</span>.',
+    }
+  : {
+      title: '关于本站 — Claude Code Arsenal · 装备手册',
+      description: 'Claude Code Arsenal 的定位、权威来源清单与投稿收录说明:新增一条收录只需一个 yaml 文件。',
+      aboutH2: '一本给 Claude Code 开发者的装备手册',
+      aboutLede: '本手册实时汇集 Anthropic 官方仓库与各大权威社区的精选 Skills,并提供经过最佳实践打磨的全局 / 项目 / 目录 / 个人四层 CLAUDE.md 模板——每一段都可直接复制落地,附完整开发者使用说明。',
+      aboutP: '站长本人的学习笔记,同时服务中文 Claude Code 开发者:找到一个 Skill 或模板 → 一键复制安装命令 / 模板全文 → 回终端开工。纯静态站,无后端、无登录;内容以数据文件驱动,星数每周自动刷新,scout 机器人每周一自动提交榜单候选。',
+      authorP: ['AUTHOR — Cc · 在 X 上找我:', ',欢迎交流收录线索与勘误。'],
+      srcH2: '本手册的权威来源',
+      srcLede: '所有事实性内容依据以下官方文档与公开仓库整理;生态更新极快,以链接内的最新版本为准。',
+      cbH2: '新增一条收录 = 一个 yaml 文件',
+      cbLede: '本站内容全部来自 content collections:收录一个新 Skill 或资源,只需在 GitHub 仓库发起 PR 新增一个小文件,通过 schema 校验即可上线。',
+      cbHtml: 'Skill 收录到 <span class="mono" style="font-size:12.5px">src/content/skills/&lt;slug&gt;.yaml</span>(name / origin / category / summary / usageExample / install / sourceUrl),资源收录到 <span class="mono" style="font-size:12.5px">src/content/resources/&lt;slug&gt;.yaml</span>。请附来源链接;第三方 Skill 建议先过安全审计。入库有手动 / 批量 / 周报推荐三种模式,详见 <span class="mono" style="font-size:12.5px">docs/INGEST.md</span>。',
+    };
+---
+
+<Site locale={locale} title={T.title} description={T.description}>
+  <section class="ch" id="about">
+    <div class="wrap">
+      <ChapterHead tag="$ whoami · ABOUT" title={T.aboutH2} lede={T.aboutLede} />
+      <p class="reveal" style="color:var(--muted);max-width:64ch">{T.aboutP}</p>
+      <p class="reveal fig-note" style="margin-top:14px">{T.authorP[0]}<a href="https://x.com/Lcc01_cc" target="_blank" rel="noopener">@Lcc01_cc</a>{T.authorP[1]}</p>
+    </div>
+  </section>
+
+  <section class="ch" id="sources">
+    <div class="wrap">
+      <ChapterHead tag="$ cat sources.list · SOURCES" title={T.srcH2} lede={T.srcLede} />
+      <div class="src-grid reveal">
+        {sources.map(s => (
+          <a href={s.href} target="_blank" rel="noopener">{s.name}<span class="u">{s.u}</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="contribute" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead tag="$ git commit · CONTRIBUTE" title={T.cbH2} lede={T.cbLede} />
+      <div class="reveal">
+        <p style="color:var(--muted);max-width:64ch" set:html={T.cbHtml} />
+      </div>
+    </div>
+  </section>
+</Site>

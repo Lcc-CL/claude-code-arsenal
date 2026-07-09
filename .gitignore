@@ -3,3 +3,7 @@ dist/
 .astro/
 .DS_Store
 CLAUDE.local.md
+
+# scout 工作产物(Action 走 artifact,本地随用随生成)
+scout-report.md
+data/candidates.json

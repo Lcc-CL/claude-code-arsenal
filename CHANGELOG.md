@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2026-07-09 · 入库流水线 + esther-design-system 收录 + 页面组件化
+
+- 新收录 esther-design-system(ESTHER不二的个人 IP 设计系统,274★,CC 署名·非商用)
+- 入库三模式落地:`pnpm ingest add`(手动)/ `pnpm ingest batch`(批量)/ `pnpm scout`(推荐,爬 skills.sh 榜单),详见 docs/INGEST.md
+- 新增 scout-skills Action:每周一爬榜单前 30,自动开 issue 附对照表与预填 candidates.json
+- 重构:7 个双语共享页面组件(components/pages/),14 个路由文件瘦身为 3–13 行薄壳,改版只动一处
+
 ## 2026-07-08 · v3 交互升级 + 中英双语
 
 - 首页装配终端升格为可交互 REPL:help / ls / install(直接复制安装命令)/ go / theme / lang / whoami

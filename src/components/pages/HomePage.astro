@@ -1,0 +1,134 @@
+---
+// HomePage · 首页(双语共享版式:hero + 装配终端 + 快速开始 + 精选)
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import Term from '../Term.astro';
+import ArmingTerminal from '../ArmingTerminal.astro';
+import SkillCard from '../SkillCard.astro';
+import ResourceRow from '../ResourceRow.astro';
+import ChapterHead from '../ChapterHead.astro';
+
+export interface Props {
+  locale?: 'zh' | 'en';
+}
+
+const { locale = 'zh' } = Astro.props;
+const en = locale === 'en';
+
+const skills = (await getCollection('skills')).map(e => e.data);
+const officialCount = skills.filter(s => s.origin === 'official').length;
+const resources = (await getCollection('resources')).map(e => e.data).sort((a, b) => a.order - b.order);
+const featuredSkills = skills.filter(s => s.featured).sort((a, b) => a.order - b.order).slice(0, 3);
+const featuredResources = resources.slice(0, 3);
+
+const nl = '\n';
+const step2Copy = `/plugin marketplace add anthropics/skills
+/plugin install document-skills@anthropic-agent-skills
+/plugin install example-skills@anthropic-agent-skills`;
+
+const T = en
+  ? {
+      title: 'Claude Code Arsenal — curated Skills & CLAUDE.md field manual',
+      description: 'Curated Anthropic Skills, authoritative community resources, and four-layer CLAUDE.md memory templates — every entry copy-ready, with developer instructions.',
+      sloganZh: ['Equip Claude Code ', 'to the teeth', '.'],
+      lede: 'Curated Skills × four-layer CLAUDE.md memory templates × authoritative community resources. Every piece of kit names its source, ships its install command, and comes with a prompt you can say out loud — copy, paste, ship.',
+      stats: ['skills curated', 'official', 'resource hubs', 'memory layers'],
+      qsTag: '$ claude --setup · QUICKSTART',
+      qsTitle: 'Three commands to full kit',
+      qsLede: 'From zero to “official skills armed + project memory initialized” in a few minutes. Every code block has one-click copy in its corner.',
+      s1: 'STEP 01 — Install Claude Code', s1p: 'Skip if already installed. First run walks you through login; see the official docs linked in the footer for system requirements.',
+      s2: 'STEP 02 — Add the official marketplace', s2t: 'claude · run in session', s2p: 'Installs all 17 official skills in one go. Then just name them in conversation — e.g. “use the pdf skill to extract this form’s fields”.',
+      s3: 'STEP 03 — Initialize memory', s3p1: 'After drafting, prune it against the templates: delete what Claude can infer, keep only high-signal rules. Put the global file at ', s3p2: ' yourself.',
+      s3c1: '# draft a project CLAUDE.md', s3c2: '# view / edit every layer anytime', s1cd: 'cd your-project',
+      ftTag: '$ ls featured/ · FEATURED', ftTitle: 'Start with these',
+      ftLede: 'Hand-picked entries from the skills library and the resource shelf; the full catalog lives on their own pages.',
+      allSkills: (n: number) => `Browse all ${n} skills →`, allRes: (n: number) => `Browse all ${n} resources →`,
+      skillsHref: '/en/skills', resHref: '/en/resources',
+      copyLabel: 'copy', copyDone: 'copied ✓',
+    }
+  : {
+      title: 'Claude Code Arsenal · 装备手册 — Skills 与 CLAUDE.md 精选库',
+      description: '精选 Anthropic 官方 Skills、权威社区资源与全局/项目/目录级 CLAUDE.md 模板,附完整开发者使用说明。',
+      sloganZh: ['把 Claude Code ', '武装到牙齿', '。'],
+      lede: '精选 Skills × 四层 CLAUDE.md 记忆模板 × 权威社区资源。每一件装备都注明来源、给出安装命令、附上开口就能用的调用示例——复制,粘贴,开工。',
+      stats: ['收录 Skills', '官方出品', '权威资源库', '层记忆模板'],
+      qsTag: '$ claude --setup · QUICKSTART',
+      qsTitle: '三条命令,完成全套装配',
+      qsLede: '从零开始到「官方技能全就位 + 项目记忆初始化」,总共只需要几分钟。每个代码块右上角都可以一键复制。',
+      s1: 'STEP 01 — 安装 Claude Code', s1p: '已安装可跳过。首次运行会引导登录;详细系统要求见文末官方文档链接。',
+      s2: 'STEP 02 — 接入官方技能市场', s2t: 'claude · 会话内执行', s2p: '一次装齐 17 个官方 Skills。之后在对话里点名即可使用,例如「用 pdf skill 提取这份表单的字段」。',
+      s3: 'STEP 03 — 初始化记忆', s3p1: '生成草稿后,用模板库对照修剪:删掉 Claude 自己能推断的内容,只留高信号规则。全局文件手动放到 ', s3p2: '。',
+      s3c1: '# 自动生成项目 CLAUDE.md 草稿', s3c2: '# 随时查看 / 编辑各层记忆', s1cd: 'cd 你的项目',
+      ftTag: '$ ls featured/ · 精选', ftTitle: '先从这几件装备开始',
+      ftLede: '技能库与资源库的入口精选;完整收录请进各自页面。',
+      allSkills: (n: number) => `查看全部 ${n} 个 Skills →`, allRes: (n: number) => `查看全部 ${n} 席资源 →`,
+      skillsHref: '/skills', resHref: '/resources',
+      copyLabel: '复制', copyDone: undefined as string | undefined,
+    };
+---
+
+<Site locale={locale} title={T.title} description={T.description}>
+  <div class="hero-v2">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">CC·FIELD MANUAL / EST. 2026</div>
+          <h1 class="hero-slogan-en"><span class="ghost" aria-hidden="true">ARM YOUR<br>AGENT</span>ARM YOUR<br>AGENT<span class="cursor" aria-hidden="true"></span></h1>
+          <p class="hero-slogan-zh">{T.sloganZh[0]}<span class="hl">{T.sloganZh[1]}</span>{T.sloganZh[2]}</p>
+          <p class="hero-lede">{T.lede}</p>
+          <div class="hero-stats">
+            <div class="stat"><b>{skills.length}</b>{T.stats[0]}</div>
+            <div class="stat"><b>{officialCount}</b>{T.stats[1]}</div>
+            <div class="stat"><b>{resources.length}</b>{T.stats[2]}</div>
+            <div class="stat"><b>4</b>{T.stats[3]}</div>
+          </div>
+        </div>
+        <div class="reveal">
+          <ArmingTerminal
+            locale={locale}
+            skills={skills.map(s => ({ n: s.name, c: s.install.command, o: s.origin }))}
+            resources={resources.map(r => r.name)}
+            officialCount={officialCount}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="ch" id="start">
+    <div class="wrap">
+      <ChapterHead tag={T.qsTag} title={T.qsTitle} lede={T.qsLede} />
+      <div class="steps reveal">
+        <div class="step">
+          <div class="step-no">{T.s1}</div>
+          <Term title="terminal" copyLabel={T.copyLabel} copyDoneLabel={T.copyDone} copyText="npm install -g @anthropic-ai/claude-code"><span class="t-g">$</span> npm install -g @anthropic-ai/claude-code{nl}<span class="t-g">$</span> {T.s1cd} <span class="t-g">&&</span> claude</Term>
+          <p>{T.s1p}</p>
+        </div>
+        <div class="step">
+          <div class="step-no">{T.s2}</div>
+          <Term title={T.s2t} copyLabel={T.copyLabel} copyDoneLabel={T.copyDone} copyText={step2Copy}><span class="t-g">&gt;</span> /plugin marketplace add <span class="t-y">anthropics/skills</span>{nl}<span class="t-g">&gt;</span> /plugin install document-skills@anthropic-agent-skills{nl}<span class="t-g">&gt;</span> /plugin install example-skills@anthropic-agent-skills</Term>
+          <p>{T.s2p}</p>
+        </div>
+        <div class="step">
+          <div class="step-no">{T.s3}</div>
+          <Term title={T.s2t} copyLabel={T.copyLabel} copyDoneLabel={T.copyDone} copyText="/init"><span class="t-g">&gt;</span> /init   <span class="t-c">{T.s3c1}</span>{nl}<span class="t-g">&gt;</span> /memory <span class="t-c">{T.s3c2}</span></Term>
+          <p>{T.s3p1}<span class="mono" style="font-size:12px">~/.claude/CLAUDE.md</span>{T.s3p2}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="featured" style="border-bottom:none">
+    <div class="wrap">
+      <ChapterHead tag={T.ftTag} title={T.ftTitle} lede={T.ftLede} />
+      <div class="cards reveal">
+        {featuredSkills.map(skill => <SkillCard skill={skill} locale={locale} />)}
+      </div>
+      <p class="bundle-note"><a href={T.skillsHref}>{T.allSkills(skills.length)}</a></p>
+      <div class="res-list reveal" style="margin-top:26px">
+        {featuredResources.map(resource => <ResourceRow resource={resource} locale={locale} />)}
+      </div>
+      <p class="bundle-note"><a href={T.resHref}>{T.allRes(resources.length)}</a></p>
+    </div>
+  </section>
+</Site>

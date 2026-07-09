@@ -1,0 +1,17 @@
+name: esther-design-system
+slug: esther-design-system
+origin: community
+category: art
+summary: ESTHER不二的个人 IP 设计系统:品牌 DNA + 教程/落地页/App/图文卡片/公众号五套场景规范与模板,把审美写成 AI 必须照办的操作手册(CC 署名·非商用)。
+usageExample: 用 esther-design-system 把这篇文章做成小红书图文卡片
+summaryEn: "ESTHER's personal-IP design system: brand DNA plus five scene specs (tutorial, landing, app, card images, WeChat layout) with templates — taste written as a manual the AI must follow (CC BY-NC-SA)."
+usageExampleEn: "Use esther-design-system to turn this article into Xiaohongshu card images"
+install:
+  method: npx
+  command: npx skills add esthersjw/esther-design-system
+sourceUrl: https://github.com/esthersjw/esther-design-system
+tags: [设计, 个人品牌, 中文]
+featured: false
+order: 26
+addedAt: 2026-07-08
+lastVerified: 2026-07-08

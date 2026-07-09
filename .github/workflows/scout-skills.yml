@@ -1,0 +1,32 @@
+name: scout-skills
+
+on:
+  schedule:
+    - cron: '47 2 * * 1' # 每周一 02:47 UTC,与 sync-stars 错峰
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Scout skills.sh leaderboard
+        run: node scripts/ingest.mjs scout --top 30
+      - name: Open weekly report issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: '🛰 scout 周报:skills.sh 榜单候选'
+          content-filepath: scout-report.md
+          labels: scout, 推荐入库
+      - name: Upload candidates.json
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidates
+          path: data/candidates.json
