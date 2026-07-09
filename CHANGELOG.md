@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2026-07-09 · scout 周报首批策展入库
+
+- 技能 +3(均经 SKILL.md 逐条核实):remotion-best-practices(Remotion 官方,程序化视频)、triage(issue/PR 分诊状态机)、handoff(会话交接文档,治长会话衰减)
+- 资源 +2(家族合辑进资源架):microsoft/azure-skills(微软官方 Azure 技能族)、larksuite/cli(飞书官方 CLI 与 lark-* 技能族)
+- 落选说明:tdd/grill-with-docs 与站内同类重复,setup-* 为安装器,caveman 来源单薄,site/* 与 larksuite 官方源重复
+
 ## 2026-07-09 · 入库流水线 + esther-design-system 收录 + 页面组件化
 
 - 新收录 esther-design-system(ESTHER不二的个人 IP 设计系统,274★,CC 署名·非商用)

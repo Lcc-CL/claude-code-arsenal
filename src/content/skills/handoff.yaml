@@ -1,0 +1,17 @@
+name: handoff
+slug: handoff
+origin: community
+category: team
+summary: "把当前会话压缩成一份交接文档,让新开的代理无缝接手——治「会话越长越笨」的实用解法。"
+usageExample: "用 handoff 生成交接文档,我要开个新会话继续"
+summaryEn: "Compacts the current conversation into a handoff document a fresh agent can pick up — a practical cure for long-session decay."
+usageExampleEn: "Use handoff to write a handoff doc; I'm starting a fresh session"
+install:
+  method: npx
+  command: npx skills add mattpocock/skills/handoff
+sourceUrl: https://github.com/mattpocock/skills
+tags: [上下文, 交接]
+featured: false
+order: 29
+addedAt: 2026-07-09
+lastVerified: 2026-07-09

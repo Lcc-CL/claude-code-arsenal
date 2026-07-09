@@ -1,0 +1,17 @@
+name: triage
+slug: triage
+origin: community
+category: team
+summary: "Matt Pocock 的 issue/PR 分诊状态机:分类、验证、必要时拷问,最终产出可直接交给代理执行的工作简报。"
+usageExample: "用 triage 把这批新 issue 过一遍分诊流程"
+summaryEn: "Matt Pocock's triage state machine for issues and external PRs: categorise, verify, grill when needed, and write agent-ready briefs."
+usageExampleEn: "Use triage to run this batch of new issues through the pipeline"
+install:
+  method: npx
+  command: npx skills add mattpocock/skills/triage
+sourceUrl: https://github.com/mattpocock/skills
+tags: [issue, 协作]
+featured: false
+order: 28
+addedAt: 2026-07-09
+lastVerified: 2026-07-09

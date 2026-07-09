@@ -1,0 +1,10 @@
+name: larksuite/cli
+url: https://github.com/larksuite/cli
+desc: 飞书官方 CLI 与技能族:文档、多维表格、审批、日历、考勤等 lark-* 技能一站集齐,为人与 AI 代理同时设计。
+descEn: "The official Lark/Feishu CLI and skill family: docs, Base tables, approvals, calendar, attendance and more lark-* skills, built for humans and AI agents alike."
+badge: 中文
+stars: 15.3k
+installCommand: npx skills add larksuite/cli/lark-doc
+installLabel: 复制示例
+order: 17
+lastVerified: 2026-07-09

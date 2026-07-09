@@ -1,0 +1,17 @@
+name: remotion-best-practices
+slug: remotion-best-practices
+origin: community
+category: art
+summary: "Remotion 官方最佳实践:用 React/TypeScript 写视频、渲染成 MP4——动画、转场、字幕、音频、图表全覆盖,写 Remotion 代码前必读。"
+usageExample: "按 remotion-best-practices 把这组数据做成 15 秒动态图表视频"
+summaryEn: "Official Remotion best practices: build videos programmatically in React/TypeScript — animation, transitions, captions, audio, and charts. Consult before touching any Remotion API."
+usageExampleEn: "Following remotion-best-practices, turn this data into a 15-second animated chart video"
+install:
+  method: npx
+  command: npx skills add remotion-dev/skills/remotion-best-practices
+sourceUrl: https://github.com/remotion-dev/skills
+tags: [视频, React]
+featured: false
+order: 27
+addedAt: 2026-07-09
+lastVerified: 2026-07-09

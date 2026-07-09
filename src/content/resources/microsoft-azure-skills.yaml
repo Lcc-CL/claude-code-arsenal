@@ -1,0 +1,10 @@
+name: microsoft/azure-skills
+url: https://github.com/microsoft/azure-skills
+desc: 微软官方 Azure 技能族:计算、K8s、监控、迁移、合规等 15+ 个场景技能与 MCP 配置,一族打包,榜单常客。
+descEn: "Microsoft's official Azure skill family: 15+ scenario skills (compute, Kubernetes, monitoring, migration, compliance) plus MCP configs, shipped as one plugin."
+badge: 垂直
+stars: 1.3k
+installCommand: npx skills add microsoft/azure-skills/microsoft-foundry
+installLabel: 复制示例
+order: 16
+lastVerified: 2026-07-09
