@@ -4,7 +4,7 @@
 
 ## 项目一句话
 
-「Claude Code Arsenal · 装备手册」——收录 Skills 与 CLAUDE.md 模板的双语静态站(Astro 5 + strict TS + 原生 CSS,零框架 JS),暗色终端为默认主题,slogan:ARM YOUR AGENT_ / 把 Claude Code 武装到牙齿。作者署名 Cc(@Lcc_MaxCc → x.com/Lcc_MaxCc),**署名不得移除**。
+「Claude Code Arsenal · 装备手册」——收录 Skills 与 CLAUDE.md 模板的双语静态站(Astro 5 + strict TS + 原生 CSS,零框架 JS),暗色终端为默认主题,slogan:ARM YOUR AGENT_ / 把 Claude Code 武装到牙齿。作者署名 Cc(@Cc_superL → x.com/Cc_superL),**署名不得移除**。
 
 ## 当前状态(验收已过)
 

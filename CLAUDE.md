@@ -38,7 +38,7 @@
 ## 雷区(违反会返工)
 - 不删除/改写 collections 里已收录条目的事实字段(修正错误除外)
 - 双主题都要验:改样式必须在 :dark 与 :light 下各看一遍
-- 作者署名 Cc(@Lcc_MaxCc → x.com/Lcc_MaxCc)不得移除
+- 作者署名 Cc(@Cc_superL → x.com/Cc_superL)不得移除
 - Astro 工具链踩坑:模板里禁用 {'\n'} 字面量(用 const nl);MDX 多行模板串会被 dedent(空白敏感内容走单行 export const + content 属性);@astrojs/mdx 锁 ^4
 
 ## 工作流

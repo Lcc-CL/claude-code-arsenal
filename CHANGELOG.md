@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2026-07-12 · 作者 X 账号更名
+
+- 作者 X 账号由 @Lcc_MaxCc 更名为 @Cc_superL,全站同步:页脚 / 关于页 / whoami / twitter:creator / OG 卡 / 文档
+
 ## 2026-07-09 · scout 周报首批策展入库
 
 - 技能 +3(均经 SKILL.md 逐条核实):remotion-best-practices(Remotion 官方,程序化视频)、triage(issue/PR 分诊状态机)、handoff(会话交接文档,治长会话衰减)
@@ -29,7 +33,7 @@
 - 新交互:⌘K 终端风命令面板(全站检索)、首页装配序列打字动画、导航当前页高亮
 - 收录扩充至 25 个 Skills(官方 17 + 社区 8)与 15 席资源
 - 自我更新:GitHub Action 每周一自动刷新资源星数并开 PR
-- 页脚与关于页附作者署名 Cc(@Lcc_MaxCc)
+- 页脚与关于页附作者署名 Cc(@Cc_superL)
 
 ## 2026-07-08 · 社区精选首批收录
 
