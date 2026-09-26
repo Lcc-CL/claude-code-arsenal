@@ -29,3 +29,27 @@ jobs:
         run: pnpm astro check
       - name: Build
         run: pnpm build
+
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build --build-arg SITE_URL=https://example.com -t arsenal:pr .
+      - name: Smoke test the image
+        run: |
+          set -euo pipefail
+          docker run -d --name arsenal -p 8080:80 arsenal:pr
+          for _ in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8080/healthz >/dev/null && break
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8080/ | grep -q '<link rel="canonical" href="https://example.com/"'
+          curl -fsS -o /dev/null http://127.0.0.1:8080/about/
+          curl -fsS -o /dev/null http://127.0.0.1:8080/en/
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/no-such-page)" = 404
+          echo "image OK"
+      - name: Container logs
+        if: always()
+        run: docker logs arsenal || true

@@ -37,7 +37,7 @@
 | 内容 | Content Collections:`skills`、`resources` 用 YAML(data collection),`templates` 用 MD + frontmatter,`guides` 用 MDX | 一条收录 = 一个小文件,PR 友好 |
 | 字体 | `@fontsource/jetbrains-mono` 自托管(400/500/700) | 主要读者在中国大陆,**禁止使用 Google Fonts CDN**;中文走系统字体栈 |
 | 搜索 | **Pagefind**(P2 引入,构建期静态索引) | 无后端全文搜索 |
-| 部署 | Vercel 或 Cloudflare Pages 首选;国内访问不佳时自托管 Nginx / 腾讯 EdgeOne / Zeabur | push 即发布 |
+| 部署 | 平台无关:Docker + Nginx 自托管(`scripts/deploy.sh`),或任意静态托管;域名由 `SITE_URL` 注入,见 docs/DEPLOY.md | push 即发布 |
 | 质量门 | TypeScript strict;`pnpm astro check` + `pnpm build` | 每阶段验收必跑 |
 
 ---

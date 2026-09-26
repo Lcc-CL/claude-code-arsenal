@@ -7,3 +7,6 @@ CLAUDE.local.md
 # scout 工作产物(Action 走 artifact,本地随用随生成)
 scout-report.md
 data/candidates.json
+
+# 服务器上的生产环境变量
+.env.production

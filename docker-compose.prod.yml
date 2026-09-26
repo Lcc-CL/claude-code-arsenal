@@ -1,0 +1,14 @@
+# Production — platform-neutral, runs on any host with Docker.
+#   ./scripts/deploy.sh
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+# See docs/DEPLOY.md.
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:?set SITE_URL (public origin, e.g. https://example.com) in the env file}
+    ports:
+      - "${WEB_BIND:-0.0.0.0}:${WEB_PORT:-8080}:80"
+    restart: unless-stopped
