@@ -1,0 +1,11 @@
+.git
+node_modules
+dist
+.astro
+.vscode
+.env
+.env.*
+!.env.production.example
+reference
+scout-report.md
+data/candidates.json

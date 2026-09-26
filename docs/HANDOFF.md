@@ -28,7 +28,7 @@
 ## 待办(按优先级)
 
 1. **推送 GitHub**:gh CLI 已在安装;等站长 `gh auth login` 后 `gh repo create` + push(main ff 到 redesign/v2 后推)
-2. **部署**:Vercel/Cloudflare Pages(构建 `pnpm build`,输出 `dist`,Node 20);上线后把 `astro.config.mjs` 的 `site` 占位符换成真域名(canonical/og 依赖)
+2. **部署**:平台无关,见 @docs/DEPLOY.md(Docker + Nginx 自托管,或任意静态托管:构建 `pnpm build`,输出 `dist`,Node 22);正式域名通过构建期变量 `SITE_URL` 注入(canonical/og 依赖)
 3. 手动验:⌘K、REPL、主题/语言切换手感;375px 窄屏;Lighthouse 四项 ≥95(SPEC 目标,未跑过)
 4. P2 余项:Pagefind 搜索、/skills/[slug] 详情页、sitemap+RSS、workflow_dispatch 实测两个 Action
 5. 中文 404/styleguide 未做英文版(低优先)

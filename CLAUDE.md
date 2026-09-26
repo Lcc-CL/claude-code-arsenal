@@ -9,6 +9,7 @@
 - 类型门:  pnpm astro check
 - 构建:   pnpm build && pnpm preview
 - 星数同步: node scripts/sync-stars.mjs(CI 每周一自动跑)
+- 部署:   ./scripts/deploy.sh(平台无关,正式域名由 SITE_URL 注入,详见 @docs/DEPLOY.md)
 - 收录入库: pnpm ingest add|batch / pnpm scout(三模式详见 @docs/INGEST.md;条目须人工核实)
 - 新增依赖: 必须先说明理由并对照 SPEC 第 2 节获准
 
